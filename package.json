@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
+    "eslint": "eslint . --ext .js --ext .ts",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
@@ -13,9 +14,14 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-typescript": "^8.0.0",
     "@testing-library/dom": "^8.11.3",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/svelte": "^3.1.0",
+    "@tsconfig/svelte": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "eslint": "^8.11.0",
+    "eslint-plugin-svelte3": "^3.4.1",
     "jest": "^27.5.1",
     "jsdom": "^19.0.0",
     "rollup": "^2.3.4",
@@ -27,11 +33,9 @@
     "svelte-check": "^2.0.0",
     "svelte-jester": "^2.3.2",
     "svelte-preprocess": "^4.0.0",
-    "@rollup/plugin-typescript": "^8.0.0",
     "ts-jest": "^27.1.3",
-    "typescript": "^4.0.0",
     "tslib": "^2.0.0",
-    "@tsconfig/svelte": "^2.0.0"
+    "typescript": "^4.0.0"
   },
   "dependencies": {
     "sirv-cli": "^2.0.0"

@@ -1,20 +1,57 @@
+type hex = string;
+
+type HSL = {
+  h: number, // from 0 to 360
+  s: number, // from 0 to 100
+  l: number // from 0 to 100
+}
+
 type Color = {
   keyword: string;
-  hex: string;
+  hex: hex;
+  // hsl: HSL;
   alternativeKeywords?: Array<string>;
 }
 
-const HEX_REGEX = /^#[0-9a-f]{6}$/;
+const HEX_REGEX = /^#([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 
-function sanitizeKeyword (keyword) {
+function hexToHSL(hex: hex) : HSL {
+  const result = HEX_REGEX.exec(hex);
+  let r = parseInt(result[1], 16);
+  let g = parseInt(result[2], 16);
+  let b = parseInt(result[3], 16);
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  const max = Math.max(r, g, b); const min = Math.min(r, g, b);
+  let h; let s; let l = (max + min) / 2; // eslint-disable-line prefer-const
+  if (max === min) {
+    h = s = 0; // achromatic
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  h = Math.round(h * 360);
+  s = Math.round(s * 100);
+  l = Math.round(l * 100);
+  return { h, s, l };
+}
+
+function sanitizeKeyword(keyword) {
   return keyword?.toLowerCase().trim();
 }
 
-function sanitizeHex (hex) {
+function sanitizeHex(hex) {
   return hex?.toLowerCase().trim();
 }
 
-function loadData(data: Array<any>) : Array<Color> {
+function loadData(data: Array<any>) : Array<Color> { // eslint-disable-line @typescript-eslint/no-explicit-any
   const knownKeys = ["keyword", "hex", "alternativeKeywords"];
 
   data.forEach(c => {
@@ -75,7 +112,6 @@ function loadData(data: Array<any>) : Array<Color> {
     ];
   }, []);
 
-
   const duplicateNames = names.reduce((acc, name, index, self) => {
     if (self.indexOf(name) === index) {
       return acc;
@@ -100,5 +136,6 @@ function loadData(data: Array<any>) : Array<Color> {
 }
 
 export {
+  hexToHSL,
   loadData
 };

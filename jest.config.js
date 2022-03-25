@@ -10,16 +10,16 @@ export default {
     "js",
     "ts",
     "json",
-    "svelte"
+    "svelte",
   ],
   testEnvironment: "jsdom",
   testMatch: [
     "**/__tests__/**/*.[jt]s?(x)",
-    "**/?(*.)+(spec|test).[tj]s?(x)"
+    "**/?(*.)+(spec|test).[tj]s?(x)",
   ],
   transform: {
     "^.+\\.js$": "ts-jest",
     "^.+\\.ts": "ts-jest",
-    "^.+\\.svelte$": ["svelte-jester", { "preprocess": true }],
+    "^.+\\.svelte$": ["svelte-jester", { preprocess: true }]
   },
 };

@@ -15,7 +15,7 @@ function sanitizeHex (hex) {
 }
 
 function loadData(data: Array<any>) : Array<Color> {
-  const knownKeys = ['keyword', 'hex', 'alternativeKeywords'];
+  const knownKeys = ["keyword", "hex", "alternativeKeywords"];
 
   data.forEach(c => {
     if (!c.keyword) {
@@ -63,7 +63,7 @@ function loadData(data: Array<any>) : Array<Color> {
   const names = data.reduce((acc, c) => {
     if (c.alternativeKeywords && (
       !Array.isArray(c.alternativeKeywords) ||
-      c.alternativeKeywords.some(x => typeof x !== 'string'))
+      c.alternativeKeywords.some(x => typeof x !== "string"))
     ) {
       throw new Error(`'alternativeKeywords' must be an array of strings, found: '${c.alternativeKeywords}'`);
     }

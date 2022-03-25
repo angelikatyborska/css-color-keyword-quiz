@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 import { loadData } from "../src/color";
 import jsonData from "../src/data.json";
 
@@ -6,8 +6,8 @@ describe("color", () => {
   describe("render", () => {
     test("returns an array of valid colors", () => {
       const data = [
-        {keyword: 'cyan', hex: '#00ffff', alternativeKeywords: ['aqua']},
-        {keyword: 'red', hex: '#ff0000'},
+        {keyword: "cyan", hex: "#00ffff", alternativeKeywords: ["aqua"]},
+        {keyword: "red", hex: "#ff0000"},
       ];
 
       expect(loadData(data)).toEqual(
@@ -30,8 +30,8 @@ describe("color", () => {
 
     test("normalizes data", () => {
       const data = [
-        {keyword: 'CYAN  ', hex: '#00FFFF', alternativeKeywords: ['   aqua ']},
-        {keyword: '  red', hex: '  #ff0000  '},
+        {keyword: "CYAN  ", hex: "#00FFFF", alternativeKeywords: ["   aqua "]},
+        {keyword: "  red", hex: "  #ff0000  "},
       ];
 
       expect(loadData(data)).toEqual(
@@ -54,9 +54,9 @@ describe("color", () => {
 
     test("rejects duplicate keywords, after normalization", () => {
       const data = [
-        {keyword: 'cyan', hex: '#00ffff', alternativeKeywords: ['  RED   ']},
-        {keyword: 'red', hex: '#ff0000'},
-        {keyword: 'cyan', hex: '#00fffe'}
+        {keyword: "cyan", hex: "#00ffff", alternativeKeywords: ["  RED   "]},
+        {keyword: "red", hex: "#ff0000"},
+        {keyword: "cyan", hex: "#00fffe"}
       ];
 
       expect(() => loadData(data))
@@ -65,10 +65,10 @@ describe("color", () => {
 
     test("rejects duplicate hexes, after normalization", () => {
       const data = [
-        {keyword: 'cyan', hex: '#00ffff'},
-        {keyword: 'red', hex: '#ff0000'},
-        {keyword: 'red', hex: '#FF0000'},
-        {keyword: 'cyan', hex: '  #00ffff  '}
+        {keyword: "cyan", hex: "#00ffff"},
+        {keyword: "red", hex: "#ff0000"},
+        {keyword: "red", hex: "#FF0000"},
+        {keyword: "cyan", hex: "  #00ffff  "}
       ];
 
       expect(() => loadData(data))
@@ -77,7 +77,7 @@ describe("color", () => {
 
     test("rejects objects with missing keyword", () => {
       const data = [
-        {hex: '#00ffff'},
+        {hex: "#00ffff"},
       ];
 
       expect(() => loadData(data))
@@ -86,7 +86,7 @@ describe("color", () => {
 
     test("rejects objects with missing hex", () => {
       const data = [
-        {keyword: 'cyan'},
+        {keyword: "cyan"},
       ];
 
       expect(() => loadData(data))
@@ -95,7 +95,7 @@ describe("color", () => {
 
     test("rejects unknown keys", () => {
       const data = [
-        {keyword: 'cyan', hex: '#00FFFF', name: 'cyan', extraName: 'aqua'},
+        {keyword: "cyan", hex: "#00FFFF", name: "cyan", extraName: "aqua"},
       ];
 
       expect(() => loadData(data))

@@ -1,5 +1,6 @@
 <script lang="ts">
   import DebugTableDiff from "./DebugTableDiff.svelte";
+  import DebugTableSimilar from "./DebugTableSimilar.svelte";
   import loadData from "./loadData.ts";
   import { rawJSONData } from "./color.ts";
   const colors = loadData(rawJSONData);
@@ -8,7 +9,7 @@
 
 <main>
   <p>Visit the <a data-testid="some-link" href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-  <DebugTableDiff colors={colors} />
+  <DebugTableSimilar colors={colors} />
 </main>
 
 <style>

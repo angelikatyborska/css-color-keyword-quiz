@@ -1,120 +1,46 @@
-import "@testing-library/jest-dom";
-import { hexToHSL, loadData } from "../src/color";
-import jsonData from "../src/data.json";
+import { hexToRGB, calculateColorDiff } from "../src/color";
 
 describe("color", () => {
-  describe("HexToHSL", () => {
-    test("black", () => expect(hexToHSL("#000000")).toEqual({ h: 0, s: 0, l: 0 }));
-    test("white", () => expect(hexToHSL("#ffffff")).toEqual({ h: 0, s: 0, l: 100 }));
-    test("gray", () => expect(hexToHSL("#808080")).toEqual({ h: 0, s: 0, l: 50 }));
-    test("red", () => expect(hexToHSL("#ff0000")).toEqual({ h: 0, s: 100, l: 50 }));
-    test("cyan", () => expect(hexToHSL("#00ffff")).toEqual({ h: 180, s: 100, l: 50 }));
-    test("indigo", () => expect(hexToHSL("#4b0082")).toEqual({ h: 275, s: 100, l: 25 }));
+  describe("hexToRGB", () => {
+    test("black", () => expect(hexToRGB("#000000")).toEqual({ r: 0, g: 0, b: 0 }));
+    test("white", () => expect(hexToRGB("#ffffff")).toEqual({ r: 255, g: 255, b: 255 }));
+    test("gray", () => expect(hexToRGB("#808080")).toEqual({ r: 128, g: 128, b: 128 }));
+    test("red", () => expect(hexToRGB("#ff0000")).toEqual({ r: 255, g: 0, b: 0 }));
+    test("cyan", () => expect(hexToRGB("#00ffff")).toEqual({ r: 0, g: 255, b: 255 }));
+    test("indigo", () => expect(hexToRGB("#4b0082")).toEqual({ r: 75, g: 0, b: 130 }));
   });
 
-  describe("loadData", () => {
-    test("returns an array of valid colors", () => {
-      const data = [
-        { keyword: "cyan", hex: "#00ffff", alternativeKeywords: ["aqua"] },
-        { keyword: "red", hex: "#ff0000" },
-      ];
+  describe("calculateColorDiff", () => {
+    const white = { r: 255, g: 255, b: 255 };
+    const black = { r: 0, g: 0, b: 0 };
+    const gray = { r: 128, g: 128, b: 128 };
+    const lightGreen = { r: 144, g: 238, b: 144 };
+    const darkGreen = { r: 0, g: 100, b: 0 };
 
-      expect(loadData(data)).toEqual(
-        [
-          {
-            alternativeKeywords: [
-              "aqua",
-            ],
-            keyword: "cyan",
-            hex: "#00ffff",
-          },
-          {
-            alternativeKeywords: [],
-            keyword: "red",
-            hex: "#ff0000",
-          },
-        ],
-      );
+    test("black is identical to black", () => {
+      expect(calculateColorDiff(black, black)).toEqual(0);
     });
 
-    test("normalizes data", () => {
-      const data = [
-        { keyword: "CYAN  ", hex: "#00FFFF", alternativeKeywords: ["   aqua "] },
-        { keyword: "  red", hex: "  #ff0000  " },
-      ];
-
-      expect(loadData(data)).toEqual(
-        [
-          {
-            alternativeKeywords: [
-              "aqua",
-            ],
-            keyword: "cyan",
-            hex: "#00ffff",
-          },
-          {
-            alternativeKeywords: [],
-            keyword: "red",
-            hex: "#ff0000",
-          },
-        ],
-      );
+    test("white is identical to white", () => {
+      expect(calculateColorDiff(white, white)).toEqual(0);
     });
 
-    test("rejects duplicate keywords, after normalization", () => {
-      const data = [
-        { keyword: "cyan", hex: "#00ffff", alternativeKeywords: ["  RED   "] },
-        { keyword: "red", hex: "#ff0000" },
-        { keyword: "cyan", hex: "#00fffe" },
-      ];
-
-      expect(() => loadData(data))
-        .toThrow("found duplicate keywords and/or alternativeKeywords: 'red,cyan'");
+    test("white is more similar to gray than to black", () => {
+      expect(calculateColorDiff(white, gray)).toBeLessThan(calculateColorDiff(white, black));
     });
 
-    test("rejects duplicate hexes, after normalization", () => {
-      const data = [
-        { keyword: "cyan", hex: "#00ffff" },
-        { keyword: "red", hex: "#ff0000" },
-        { keyword: "red", hex: "#FF0000" },
-        { keyword: "cyan", hex: "  #00ffff  " },
-      ];
-
-      expect(() => loadData(data))
-        .toThrow("found duplicate hex values: '#00ffff,#ff0000'. Use alternativeKeywords instead.");
+    test("white is more similar to light green than to dark green", () => {
+      expect(calculateColorDiff(white, lightGreen))
+        .toBeLessThan(calculateColorDiff(white, darkGreen));
     });
 
-    test("rejects objects with missing keyword", () => {
-      const data = [
-        { hex: "#00ffff" },
-      ];
-
-      expect(() => loadData(data))
-        .toThrow("missing keyword: '{\"hex\":\"#00ffff\"}'");
+    test("black is more similar to dark green than to light green", () => {
+      expect(calculateColorDiff(black, darkGreen))
+        .toBeLessThan(calculateColorDiff(black, lightGreen));
     });
 
-    test("rejects objects with missing hex", () => {
-      const data = [
-        { keyword: "cyan" },
-      ];
-
-      expect(() => loadData(data))
-        .toThrow("missing hex: '{\"keyword\":\"cyan\"}'");
-    });
-
-    test("rejects unknown keys", () => {
-      const data = [
-        { keyword: "cyan", hex: "#00FFFF", name: "cyan", extraName: "aqua" },
-      ];
-
-      expect(() => loadData(data))
-        .toThrow("unknown keys 'name,extraName' in object '{\"keyword\":\"cyan\",\"hex\":\"#00FFFF\",\"name\":\"cyan\",\"extraName\":\"aqua\"}'");
-    });
-
-    test("real app data is valid", () => {
-      const realData = loadData(jsonData);
-      expect(Array.isArray(realData)).toBeTruthy();
-      expect(realData.length).toBeGreaterThan(0);
+    test("is symmetrical", () => {
+      expect(calculateColorDiff(white, black)).toEqual(calculateColorDiff(black, white));
     });
   });
 });

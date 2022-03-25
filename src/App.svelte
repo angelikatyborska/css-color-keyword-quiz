@@ -1,9 +1,8 @@
 <script lang="ts">
-  import DebugTableDiff from "./DebugTableDiff.svelte";
-  import DebugTableSimilar from "./DebugTableSimilar.svelte";
-  import loadData from "./loadData.ts";
-  import { rawJSONData } from "./color.ts";
-  const colors = loadData(rawJSONData);
+  import DebugTableSimilar from "./DebugTableDiff.svelte";
+  import { loadColors } from "./data/tranform.ts";
+  import rawJSONData from "./data/source.json";
+  const colors = loadColors(rawJSONData);
   export let name: string;
 </script>
 

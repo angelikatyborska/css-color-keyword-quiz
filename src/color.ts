@@ -1,5 +1,12 @@
-import rawJSONData from "./colors.json";
 type hex = string;
+
+// TODO: remove circular dep between this and transform
+
+type HSL = {
+  h: number, // from 0 to 360
+  s: number, // from 0 to 100
+  l: number // from 0 to 100
+}
 
 type RGB = {
   r: number, // from 0 to 255
@@ -11,10 +18,43 @@ type Color = {
   keyword: string;
   hex: hex;
   rgb: RGB;
-  alternativeKeywords?: Array<string>;
+  alternativeKeywords: Array<string>;
 }
 
+const MAX_HUE = 360;
+const MAX_SATURATION = 100;
+const MAX_LIGHTNESS = 100;
+const MAX_RGB_COMPONENT = 255;
+
+const DIFF_VALUE_FOR_SYNONYMS = 50;
+
 const HEX_REGEX = /^#([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+
+// TODO: decide if this is needed
+function hexToHSL(hex: hex) : HSL {
+  let { r, g, b } = hexToRGB(hex);
+  r /= MAX_RGB_COMPONENT;
+  g /= MAX_RGB_COMPONENT;
+  b /= MAX_RGB_COMPONENT;
+  const max = Math.max(r, g, b); const min = Math.min(r, g, b);
+  let h; let s; let l = (max + min) / 2; // eslint-disable-line prefer-const
+  if (max === min) {
+    h = s = 0; // achromatic
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  h = Math.round(h * MAX_HUE);
+  s = Math.round(s * MAX_SATURATION);
+  l = Math.round(l * MAX_LIGHTNESS);
+  return { h, s, l };
+}
 
 function hexToRGB(hex: hex) : RGB {
   const result = HEX_REGEX.exec(hex);
@@ -24,19 +64,48 @@ function hexToRGB(hex: hex) : RGB {
   return { r, g, b };
 }
 
-function calculateColorDiff(color1: RGB, color2: RGB) : number {
-  const rDiff = (color1.r - color2.r);
-  const gDiff = (color1.g - color2.g);
-  const bDiff = (color1.b - color2.b);
+function calculateColorDiff(color1: Color, color2: Color) : number {
+  const rDiff = Math.abs(color1.rgb.r - color2.rgb.r);
+  const gDiff = Math.abs(color1.rgb.g - color2.rgb.g);
+  const bDiff = Math.abs(color1.rgb.b - color2.rgb.b);
 
-  const diff = Math.abs(rDiff) + Math.abs(gDiff) + Math.abs(bDiff);
+  // let hDiff = Math.abs(color1.hsl.h - color2.hsl.h);
+  // hue wheel, hue 0 == hue 360
+  // if (hDiff > 180) { hDiff = 360 - hDiff }
+  // const sDiff = Math.abs(color1.hsl.s - color2.hsl.s);
+  // const lDiff = Math.abs(color1.hsl.l - color2.hsl.l);
+
+  const rgbDiff = rDiff + gDiff + bDiff;
+  // const MAX_RGB_DIFF = MAX_RGB_COMPONENT * 3;
+  let diff = rgbDiff;
+
+  // account for people mixing up colors just because they have similar names
+  const names = [
+    ["gray", "silver"],
+    ["green", "chartreuse", "lime"],
+    ["purple", "violet"],
+    ["red"],
+    ["turquoise"],
+    ["blue"],
+    ["yellow"],
+    ["pink", "orchid"],
+    ["teal", "turquoise", "aquamarine"]
+  ];
+
+  if (names.some(synonyms => {
+    return synonyms.some(x => [color1.keyword, ...color1.alternativeKeywords].join(",").includes(x)) &&
+    synonyms.some(x => [color2.keyword, ...color2.alternativeKeywords].join(",").includes(x));
+  })) {
+    diff = Math.min(diff, DIFF_VALUE_FOR_SYNONYMS);
+  }
+
   return Math.round(diff * 100) / 100;
 }
 
 export type { Color, RGB };
 export {
-  rawJSONData,
   HEX_REGEX,
+  hexToHSL,
   hexToRGB,
   calculateColorDiff
 };

@@ -1,7 +1,5 @@
 type hex = string;
 
-// TODO: remove circular dep between this and transform
-
 type HSL = {
   h: number, // from 0 to 360
   s: number, // from 0 to 100
@@ -71,6 +69,14 @@ function hexToRGB(hex: hex) : RGB {
   return { r, g, b };
 }
 
+function sanitizeKeyword(keyword) {
+  return keyword?.toLowerCase().trim();
+}
+
+function sanitizeHex(hex) {
+  return hex?.toLowerCase().trim();
+}
+
 function calculateColorDiff(color1: Color, color2: Color) : number {
   const rDiff = Math.abs(color1.rgb.r - color2.rgb.r);
   const gDiff = Math.abs(color1.rgb.g - color2.rgb.g);
@@ -132,7 +138,7 @@ function findTopSimilar(colorKeys: ColorKeyList, diffMatrix: ColorDiffMatrix, co
     .filter(colorKey2 => diffMatrix[colorKey][colorKey2] !== 0)
     .sort((a, b) =>
       diffMatrix[colorKey][a] - diffMatrix[colorKey][b]
-    )
+    );
 
   return sorted.slice(0, n);
 }
@@ -144,5 +150,7 @@ export {
   hexToRGB,
   calculateColorDiff,
   calculateDiffMatrix,
-  findTopSimilar
+  findTopSimilar,
+  sanitizeKeyword,
+  sanitizeHex
 };

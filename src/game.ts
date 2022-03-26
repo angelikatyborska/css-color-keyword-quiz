@@ -1,6 +1,6 @@
 import type { ColorMap, ColorDiffMatrix, ColorKeyList, ColorKey } from "./color";
 import type { Question, QuestionDifficulty } from "./question";
-import { shuffle } from "./array"
+import { shuffle } from "./array";
 
 enum GameState {
   NEW = "NEW",

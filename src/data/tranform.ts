@@ -1,13 +1,5 @@
 import type { Color } from "../color";
-import { hexToRGB, HEX_REGEX, calculateColorDiff } from "../color";
-
-function sanitizeKeyword(keyword) {
-  return keyword?.toLowerCase().trim();
-}
-
-function sanitizeHex(hex) {
-  return hex?.toLowerCase().trim();
-}
+import { hexToRGB, HEX_REGEX, sanitizeKeyword, sanitizeHex } from "../color";
 
 function loadColors(data: Array<any>) : Record<string, Color> { // eslint-disable-line @typescript-eslint/no-explicit-any
   const knownKeys = ["keyword", "hex", "alternativeKeywords"];

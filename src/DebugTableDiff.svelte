@@ -18,7 +18,7 @@
     <tr>
       <th style="padding: 10px; background-color: {color1.hex};">{color1.keyword}</th>
       <td style="white-space: nowrap; text-align: left;">
-        {#each (findTopSimilar(colors, diffMatrix, color1, 25)) as color2Key}
+        {#each (findTopSimilar(Object.keys(colors), diffMatrix, color1.keyword, 50)) as color2Key}
           <span style="display: inline-block; font-size: 11px; overflow: hidden; width: 20px; height: 20px; background-color: {colors[color2Key].hex}" title="{colors[color2Key].keyword}">
             {diffMatrix[color1.keyword][colors[color2Key].keyword]}
           </span>

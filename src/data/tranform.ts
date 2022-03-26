@@ -102,5 +102,4 @@ function dataObjectToColor(c) {
   };
 }
 
-
 export { loadColors, dataObjectToColor };

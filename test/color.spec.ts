@@ -1,5 +1,5 @@
 import { hexToHSL, hexToRGB, calculateColorDiff, calculateDiffMatrix, findTopSimilar } from "../src/color";
-import {dataObjectToColor} from "../src/data/tranform";
+import { dataObjectToColor } from "../src/data/tranform";
 
 describe("color", () => {
   describe("hexToHSL", () => {
@@ -64,12 +64,12 @@ describe("color", () => {
   });
 
   describe("calculateDiffMatrix", () => {
-    test("...", () => {
+    test("works", () => {
       const white = dataObjectToColor({ keyword: "white", hex: "#ffffff" });
       const black = dataObjectToColor({ keyword: "black", hex: "#000000" });
       const gray = dataObjectToColor({ keyword: "gray", hex: "#808080" });
 
-      const colors = {white, black, gray};
+      const colors = { white, black, gray };
 
       expect(calculateDiffMatrix(colors)).toEqual({
         black: { black: 0, gray: 384, white: 765 },
@@ -81,37 +81,27 @@ describe("color", () => {
 
   describe("findTopSimilar", () => {
     test("sorts by difference asc, filters out self", () => {
-      const white = dataObjectToColor({ keyword: "white", hex: "#ffffff" });
-      const black = dataObjectToColor({ keyword: "black", hex: "#000000" });
-      const gray = dataObjectToColor({ keyword: "gray", hex: "#808080" });
-      const red = dataObjectToColor({ keyword: "red", hex: "#FF0000" });
-
-      const colors = {white, black, gray, red};
+      const colors = ["white", "black", "gray", "red"];
       const diffMatrix = {
-        white: {white: 0, black: 700, gray: 300, red: 200},
-        black: {white: 700, black: 0, gray: 450, red: 50},
-        gray: {white: 300, black: 450, gray: 0, red: 400},
-        red: {white: 200, black: 50, gray: 400, red: 0}
-      }
+        white: { white: 0, black: 700, gray: 300, red: 200 },
+        black: { white: 700, black: 0, gray: 450, red: 50 },
+        gray: { white: 300, black: 450, gray: 0, red: 400 },
+        red: { white: 200, black: 50, gray: 400, red: 0 }
+      };
 
-      expect(findTopSimilar(colors, diffMatrix, white, 2)).toEqual(["red", "gray"])
-      expect(findTopSimilar(colors, diffMatrix, black, 2)).toEqual(["red", "gray"])
-      expect(findTopSimilar(colors, diffMatrix, gray, 2)).toEqual(["white", "red"])
-      expect(findTopSimilar(colors, diffMatrix, red, 2)).toEqual(["black", "white"])
-    })
+      expect(findTopSimilar(colors, diffMatrix, "white", 2)).toEqual(["red", "gray"]);
+      expect(findTopSimilar(colors, diffMatrix, "black", 2)).toEqual(["red", "gray"]);
+      expect(findTopSimilar(colors, diffMatrix, "gray", 2)).toEqual(["white", "red"]);
+      expect(findTopSimilar(colors, diffMatrix, "red", 2)).toEqual(["black", "white"]);
+    });
 
     test("stable sort order in case of more than X identical diffs", () => {
-      const white = dataObjectToColor({ keyword: "white", hex: "#ffffff" });
-      const black = dataObjectToColor({ keyword: "black", hex: "#000000" });
-      const gray = dataObjectToColor({ keyword: "gray", hex: "#808080" });
-      const red = dataObjectToColor({ keyword: "red", hex: "#FF0000" });
-
-      const colors = {white, black, gray, red};
+      const colors = ["white", "black", "gray", "red"];
       const diffMatrix = {
-        red: {white: 200, black: 200, gray: 200, red: 0}
-      }
+        red: { white: 200, black: 200, gray: 200, red: 0 }
+      };
 
-      expect(findTopSimilar(colors, diffMatrix, red, 2)).toEqual(["white", "black"])
-    })
-  })
+      expect(findTopSimilar(colors, diffMatrix, "red", 2)).toEqual(["white", "black"]);
+    });
+  });
 });

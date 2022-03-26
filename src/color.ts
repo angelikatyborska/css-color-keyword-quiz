@@ -127,19 +127,17 @@ function calculateDiffMatrix(colors: ColorMap) : ColorDiffMatrix {
 }
 
 // TODO: do this during the build
-function findTopSimilar(colors: ColorMap, diffMatrix: ColorDiffMatrix, color: Color, n: number): Array<string> {
-  const sorted = Object.values(colors)
-    .filter(color2 => diffMatrix[color.keyword][color2.keyword] !== 0)
+function findTopSimilar(colorKeys: ColorKeyList, diffMatrix: ColorDiffMatrix, colorKey: ColorKey, n: number): Array<string> {
+  const sorted = colorKeys
+    .filter(colorKey2 => diffMatrix[colorKey][colorKey2] !== 0)
     .sort((a, b) =>
-      diffMatrix[color.keyword][a.keyword] - diffMatrix[color.keyword][b.keyword]
+      diffMatrix[colorKey][a] - diffMatrix[colorKey][b]
     )
-    .map(c => c.keyword);
 
   return sorted.slice(0, n);
 }
 
-
-export type { Color, RGB };
+export type { Color, ColorKey, ColorMap, ColorList, ColorKeyList, ColorDiffMatrix };
 export {
   HEX_REGEX,
   hexToHSL,

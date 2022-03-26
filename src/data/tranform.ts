@@ -1,5 +1,5 @@
 import type { Color } from "../color";
-import { hexToHSL, hexToRGB, HEX_REGEX, calculateColorDiff } from "../color";
+import { hexToRGB, HEX_REGEX, calculateColorDiff } from "../color";
 
 function sanitizeKeyword(keyword) {
   return keyword?.toLowerCase().trim();
@@ -9,7 +9,7 @@ function sanitizeHex(hex) {
   return hex?.toLowerCase().trim();
 }
 
-function loadColors(data: Array<any>) : Array<Color> { // eslint-disable-line @typescript-eslint/no-explicit-any
+function loadColors(data: Array<any>) : Record<string, Color> { // eslint-disable-line @typescript-eslint/no-explicit-any
   const knownKeys = ["keyword", "hex", "alternativeKeywords"];
 
   data.forEach(c => {
@@ -84,14 +84,13 @@ function loadColors(data: Array<any>) : Array<Color> { // eslint-disable-line @t
     );
   }
 
-  return data.map(c => {
+  return data.reduce((acc, c) => {
+    const color = dataObjectToColor(c);
     return {
-      keyword: sanitizeKeyword(c.keyword),
-      alternativeKeywords: (c.alternativeKeywords || []).map(k => sanitizeKeyword(k)),
-      hex: sanitizeHex(c.hex),
-      rgb: hexToRGB(sanitizeHex(c.hex)),
+      ...acc,
+      [color.keyword]: color
     };
-  });
+  }, []);
 }
 
 function dataObjectToColor(c) {
@@ -99,37 +98,9 @@ function dataObjectToColor(c) {
     keyword: sanitizeKeyword(c.keyword),
     alternativeKeywords: (c.alternativeKeywords || []).map(k => sanitizeKeyword(k)),
     hex: sanitizeHex(c.hex),
-    hsl: hexToHSL(sanitizeHex(c.hex)),
     rgb: hexToRGB(sanitizeHex(c.hex)),
   };
 }
 
-// TODO: do this during the build
-function calculateDiffMatrix(colors: Array<Color>) {
-  return colors.reduce((acc1, color1) => {
-    return {
-      ...acc1,
-      [color1.keyword]: colors.reduce((acc2, color2) => {
-        return {
-          ...acc2,
-          [color2.keyword]: (acc1[color2.keyword] && acc1[color2.keyword][color1.keyword])
-            ? acc1[color2.keyword][color1.keyword]
-            : calculateColorDiff(color1, color2)
-        };
-      }, {})
-    };
-  }, {});
-}
 
-// TODO: do this during the build
-function findTopSimilar(colors: Array<Color>, diffMatrix: Record<string, Record<string, number>>, color: Color, n: number): Array<Color> {
-  const sorted = colors
-    .filter(color2 => diffMatrix[color.keyword][color2.keyword] !== 0)
-    .sort((a, b) =>
-      diffMatrix[color.keyword][a.keyword] - diffMatrix[color.keyword][b.keyword]
-    );
-
-  return sorted.slice(0, n);
-}
-
-export { loadColors, dataObjectToColor, calculateDiffMatrix, findTopSimilar };
+export { loadColors, dataObjectToColor };

@@ -14,12 +14,19 @@ type RGB = {
   b: number // from 0 to 255
 }
 
+type ColorKey = string;
+
 type Color = {
-  keyword: string;
+  keyword: ColorKey;
   hex: hex;
   rgb: RGB;
   alternativeKeywords: Array<string>;
 }
+
+type ColorList = Array<Color>;
+type ColorKeyList = Array<ColorKey>;
+type ColorMap = Record<ColorKey, Color>;
+type ColorDiffMatrix = Record<ColorKey, Record<ColorKey, number>>;
 
 const MAX_HUE = 360;
 const MAX_SATURATION = 100;
@@ -83,7 +90,7 @@ function calculateColorDiff(color1: Color, color2: Color) : number {
   const names = [
     ["gray", "silver"],
     ["green", "chartreuse", "lime"],
-    ["purple", "violet"],
+    ["purple", "violet", "orchid", "plum"],
     ["red"],
     ["turquoise"],
     ["blue"],
@@ -102,10 +109,42 @@ function calculateColorDiff(color1: Color, color2: Color) : number {
   return Math.round(diff * 100) / 100;
 }
 
+// TODO: do this during the build
+function calculateDiffMatrix(colors: ColorMap) : ColorDiffMatrix {
+  return Object.values(colors).reduce((acc1, color1) => {
+    return {
+      ...acc1,
+      [color1.keyword]: Object.values(colors).reduce((acc2, color2) => {
+        return {
+          ...acc2,
+          [color2.keyword]: (acc1[color2.keyword] && acc1[color2.keyword][color1.keyword])
+            ? acc1[color2.keyword][color1.keyword]
+            : calculateColorDiff(color1, color2)
+        };
+      }, {})
+    };
+  }, {});
+}
+
+// TODO: do this during the build
+function findTopSimilar(colors: ColorMap, diffMatrix: ColorDiffMatrix, color: Color, n: number): Array<string> {
+  const sorted = Object.values(colors)
+    .filter(color2 => diffMatrix[color.keyword][color2.keyword] !== 0)
+    .sort((a, b) =>
+      diffMatrix[color.keyword][a.keyword] - diffMatrix[color.keyword][b.keyword]
+    )
+    .map(c => c.keyword);
+
+  return sorted.slice(0, n);
+}
+
+
 export type { Color, RGB };
 export {
   HEX_REGEX,
   hexToHSL,
   hexToRGB,
-  calculateColorDiff
+  calculateColorDiff,
+  calculateDiffMatrix,
+  findTopSimilar
 };

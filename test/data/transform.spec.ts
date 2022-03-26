@@ -1,4 +1,4 @@
-import { loadColors, calculateDiffMatrix, dataObjectToColor } from "../../src/data/tranform";
+import { loadColors } from "../../src/data/tranform";
 import jsonData from "../../src/data/source.json";
 
 describe("transform", () => {
@@ -10,8 +10,8 @@ describe("transform", () => {
       ];
 
       expect(loadColors(data)).toEqual(
-        [
-          {
+        {
+          cyan: {
             alternativeKeywords: [
               "aqua",
             ],
@@ -19,13 +19,13 @@ describe("transform", () => {
             hex: "#00ffff",
             rgb: { r: 0, g: 255, b: 255 }
           },
-          {
+          red: {
             alternativeKeywords: [],
             keyword: "red",
             hex: "#ff0000",
             rgb: { r: 255, g: 0, b: 0 }
           },
-        ],
+        },
       );
     });
 
@@ -36,8 +36,8 @@ describe("transform", () => {
       ];
 
       expect(loadColors(data)).toEqual(
-        [
-          {
+        {
+          cyan: {
             alternativeKeywords: [
               "aqua",
             ],
@@ -45,13 +45,13 @@ describe("transform", () => {
             hex: "#00ffff",
             rgb: { r: 0, g: 255, b: 255 }
           },
-          {
+          red: {
             alternativeKeywords: [],
             keyword: "red",
             hex: "#ff0000",
             rgb: { r: 255, g: 0, b: 0 }
           },
-        ],
+        },
       );
     });
 
@@ -107,24 +107,8 @@ describe("transform", () => {
 
     test("real app data is valid", () => {
       const realData = loadColors(jsonData);
-      expect(Array.isArray(realData)).toBeTruthy();
-      expect(realData.length).toBeGreaterThan(0);
-    });
-  });
-
-  describe("calculateDiffMatrix", () => {
-    test("...", () => {
-      const white = dataObjectToColor({ keyword: "white", hex: "#ffffff" });
-      const black = dataObjectToColor({ keyword: "black", hex: "#000000" });
-      const gray = dataObjectToColor({ keyword: "gray", hex: "#808080" });
-
-      const colors = [white, black, gray];
-
-      expect(calculateDiffMatrix(colors)).toEqual({
-        black: { black: 0, gray: 384, white: 765 },
-        gray: { black: 384, gray: 0, white: 381 },
-        white: { black: 765, gray: 381, white: 0 }
-      });
+      expect(realData).toBeTruthy();
+      expect(Object.values(realData).length).toBeGreaterThan(0);
     });
   });
 });

@@ -1,5 +1,5 @@
-import { loadColors } from "../../src/data/tranform";
-import jsonData from "../../src/data/source.json";
+import { loadColors } from "../../../src/app/data/tranform";
+import jsonData from "../../../src/app/data/source.json";
 
 describe("transform", () => {
   describe("loadColors", () => {

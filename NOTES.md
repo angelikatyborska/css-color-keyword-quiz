@@ -18,3 +18,4 @@ Text input
 
 ## Ideas
 - twitter result share
+- offline mode

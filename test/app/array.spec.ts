@@ -1,4 +1,4 @@
-import { range, unique } from "../src/array";
+import { range, unique } from "../../src/app/array";
 
 describe("array", () => {
   describe("range", () => {

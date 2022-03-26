@@ -1,5 +1,5 @@
-import { hexToHSL, hexToRGB, calculateColorDiff, calculateDiffMatrix, findTopSimilar } from "../src/color";
-import { dataObjectToColor } from "../src/data/tranform";
+import { hexToHSL, hexToRGB, calculateColorDiff, calculateDiffMatrix, findTopSimilar } from "../../src/app/color";
+import { dataObjectToColor } from "../../src/app/data/tranform";
 
 describe("color", () => {
   describe("hexToHSL", () => {

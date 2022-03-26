@@ -1,7 +1,7 @@
 <script lang="ts">
   export let colors: Record<string, Color>;
-  import type { Color } from "./color";
-  import { calculateDiffMatrix, findTopSimilar } from "./color";
+  import type { Color } from "../app/color";
+  import { calculateDiffMatrix, findTopSimilar } from "../app/color";
   const diffMatrix = calculateDiffMatrix(colors)
 </script>
 

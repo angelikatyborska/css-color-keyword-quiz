@@ -61,8 +61,18 @@ function newQuestion(colorKey: ColorKey, difficulty: QuestionDifficulty, diffMat
   };
 }
 
+function canGiveAnswer(question: Question): boolean {
+  return question.state === QuestionState.PENDING_ANSWER;
+}
+
+// valid - potentially correct because it's not empty
+// correct - the right answer for this question
+function isAnswerValid(answer: string): boolean {
+  return !!sanitizeKeyword(answer);
+}
+
 function giveAnswer(question: Question, userInput): Question {
-  if (question.state !== QuestionState.PENDING_ANSWER) {
+  if (!canGiveAnswer(question)) {
     throw new Error("can only answer an unanswered question");
   }
 
@@ -70,6 +80,10 @@ function giveAnswer(question: Question, userInput): Question {
 
   if (question.suggestedAnswers && !question.suggestedAnswers.includes(answer)) {
     throw new Error("can only choose one of the suggested answers");
+  }
+
+  if (!isAnswerValid(answer)) {
+    throw new Error("answer must be a non-empty string");
   }
 
   return { ...question, answer, state: QuestionState.ANSWERED };
@@ -80,8 +94,12 @@ function isAnswerCorrect(question: Question, colorMap: ColorMap): boolean {
   return question.answer === correctColor.keyword || correctColor.alternativeKeywords.includes(question.answer);
 }
 
+function canCheckAnswer(question: Question): boolean {
+  return question.state === QuestionState.ANSWERED && !!question.answer;
+}
+
 function checkAnswer(question: Question, colorMap: ColorMap): Question {
-  if (question.state !== QuestionState.ANSWERED) {
+  if (!canCheckAnswer(question)) {
     throw new Error("can only check answer of an answered question");
   }
 
@@ -92,5 +110,25 @@ function checkAnswer(question: Question, colorMap: ColorMap): Question {
   return { ...question, state: newState };
 }
 
+function wasAnswerGiven(question: Question): boolean {
+  return [QuestionState.ANSWERED, QuestionState.ANSWERED_CORRECTLY, QuestionState.ANSWERED_INCORRECTLY]
+    .includes(question.state);
+}
+
+function wasAnswerChecked(question: Question): boolean {
+  return [QuestionState.ANSWERED_CORRECTLY, QuestionState.ANSWERED_INCORRECTLY]
+    .includes(question.state);
+}
+
 export type { Question };
-export { newQuestion, QuestionDifficulty, QuestionState, giveAnswer, checkAnswer };
+export {
+  newQuestion,
+  QuestionDifficulty,
+  QuestionState,
+  canGiveAnswer,
+  giveAnswer,
+  canCheckAnswer,
+  checkAnswer,
+  wasAnswerChecked,
+  wasAnswerGiven
+};

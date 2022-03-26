@@ -1,6 +1,6 @@
-import { newQuestion, QuestionDifficulty, QuestionState, giveAnswer, checkAnswer } from "../src/question";
-import { range, unique } from "../src/array";
-import { dataObjectToColor } from "../src/data/tranform";
+import { newQuestion, QuestionDifficulty, QuestionState, giveAnswer, checkAnswer } from "../../src/app/question";
+import { range, unique } from "../../src/app/array";
+import { dataObjectToColor } from "../../src/app/data/tranform";
 
 const diffMatrix = {
   c0: {

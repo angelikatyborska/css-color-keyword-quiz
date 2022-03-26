@@ -1,4 +1,7 @@
 <script lang="ts">
+  import GearIcon from '@fortawesome/fontawesome-free/svgs/solid/gear.svg'
+  import ChartIcon from '@fortawesome/fontawesome-free/svgs/solid/chart-simple.svg'
+  import QuestionIcon from '@fortawesome/fontawesome-free/svgs/solid/circle-question.svg'
   import DebugTableSimilar from "./appUI/DebugTableDiff.svelte";
   import Question from "./appUI/Question.svelte";
   import { loadColors } from "./app/data/tranform.ts";
@@ -29,9 +32,13 @@
 
 <div class="wrapper">
   <header>
-    <nav>❓</nav>
+    <div></div>
     <h1>CSS Color Quiz</h1>
-    <nav>📊 ⚙️</nav>
+    <nav>
+      <QuestionIcon width="30px"/>
+      <ChartIcon width="30px"/>
+      <GearIcon width="30px"/>️
+    </nav>
   </header>
 
   <main>

@@ -1,0 +1,43 @@
+@mixin button-reset {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  -webkit-appearance: none;
+  padding: 0;
+  text-align: inherit;
+  color: inherit;
+
+  &:active {
+    color: inherit;
+  }
+}
+
+@mixin button() {
+  @include button-reset();
+  display: block;
+  border: $button-outer-border-width solid $button-outer-border-color;
+  border-radius: $button-border-radius;
+  width: 100%;
+  cursor: pointer;
+}
+
+$button-background-color: #cccccc;
+$black: #000000;
+$white: #ffffff;
+
+$min-width: 320px;
+
+$margin-micro: 2px;
+$margin-tiny: 4px;
+$margin-small: 8px;
+$margin-medium: 16px;
+$margin-big: 32px;
+$margin-huge: 64px;
+
+$text-color: $black;
+$question-width: $min-width - $margin-big * 2;
+$button-border-radius: $margin-huge;
+$button-outer-border-width: 1px;
+$button-outer-border-color: $button-background-color;
+$button-inner-border-width: $margin-tiny;
+$button-inner-border-color: $white

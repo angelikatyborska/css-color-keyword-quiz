@@ -3,60 +3,59 @@
   export let question;
   export let onGiveAnswer;
   import { wasAnswerChecked, wasAnswerGiven } from "../app/question"
+  import AnswerButton from "./AnswerButton.svelte"
 </script>
 
 <div class="question">
   <div class="question-color-container">
-    <div class="question-color" style="background-color: {colors[question.colorKey].hex}"></div>
+    <div class="question-color" style="background-color: {colors[question.colorKey].hex}">
+      <span class="question-color-text">?</span>
+    </div>
   </div>
   <ul class="answers">
-    {#each question.suggestedAnswers as suggestedAnswer}
+    {#each question.suggestedAnswers as suggestedAnswer, index}
       <li class="answer">
-        <button
-          type="button"
-          class="answer-button {wasAnswerGiven(question) && question.answer === suggestedAnswer ? 'answer-button-selected' : ''} { wasAnswerChecked(question) && question.colorKey === suggestedAnswer ? 'answer-button-selected-correctly' : ''} { wasAnswerChecked(question) && question.answer === suggestedAnswer && question.colorKey !== suggestedAnswer? 'answer-button-selected-incorrectly' : ''}"
-          on:click={() => onGiveAnswer(suggestedAnswer)}
-        >
-          {suggestedAnswer}
-        </button>
+        <AnswerButton
+          colors={colors}
+          question={question}
+          onGiveAnswer={onGiveAnswer}
+          suggestedAnswer={suggestedAnswer}
+          isLast={index === question.suggestedAnswers.length - 1}
+        />
       </li>
     {/each}
   </ul>
 </div>
 
-<style>
+<style lang="scss">
+  @import "./shared";
+
   .question-color-container {
-    width: 170px;
-    height: 70px;
-    margin: 0 auto 20px;
-    border: 1px solid black;
+    width: $question-width;
+    margin: 0 auto $margin-medium;
+    border: $button-outer-border-width solid $button-outer-border-color;
+    border-radius: $button-border-radius;
   }
 
   .question-color {
-    width: 150px;
-    height: 50px;
-    border: 10px solid white;
+    width: $question-width - 2 * $button-outer-border-width;
+    border: $button-inner-border-width solid $button-inner-border-color;
+    padding: $margin-small;
+    border-radius: $button-border-radius;
+  }
+
+  .question-color-text {
+    display: inline-block;
+    color: $text-color;
+    background-color :$button-inner-border-color;
+    padding: $margin-micro $margin-tiny;
+    font-size: 2em;
   }
 
   .answers {
     list-style-type: none;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
-  }
-
-  .answer-button {
-    border: 3px solid transparent;
-  }
-
-  .answer-button-selected {
-    border: 3px solid black;
-  }
-
-  .answer-button-selected-correctly {
-    border: 3px solid green;
-  }
-
-  .answer-button-selected-incorrectly {
-    border: 3px solid red;
+    width: $question-width;
   }
 </style>

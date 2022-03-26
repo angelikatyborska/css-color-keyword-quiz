@@ -1,5 +1,6 @@
 import type { Color } from "../color";
 import { hexToRGB, HEX_REGEX, sanitizeKeyword, sanitizeHex } from "../color";
+import type { ColorKeyList, ColorKey } from "../color";
 
 function loadColors(data: Array<any>) : Record<string, Color> { // eslint-disable-line @typescript-eslint/no-explicit-any
   const knownKeys = ["keyword", "hex", "alternativeKeywords"];
@@ -85,7 +86,7 @@ function loadColors(data: Array<any>) : Record<string, Color> { // eslint-disabl
   }, []);
 }
 
-function dataObjectToColor(c) {
+function dataObjectToColor(c: {keyword: ColorKey, alternativeKeywords?: ColorKeyList, hex: string}) {
   return {
     keyword: sanitizeKeyword(c.keyword),
     alternativeKeywords: (c.alternativeKeywords || []).map(k => sanitizeKeyword(k)),

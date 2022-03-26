@@ -1,4 +1,4 @@
-import type { ColorDiffMatrix, ColorKey, ColorKeyList } from "./color";
+import type { ColorDiffMatrix, ColorKey, ColorKeyList, ColorMap } from "./color";
 import { shuffle } from "./array";
 import { findTopSimilar, sanitizeKeyword } from "./color";
 
@@ -7,8 +7,8 @@ const SUGGESTED_ANSWERS_PER_QUESTION = 4;
 enum QuestionState {
   PENDING_ANSWER = "PENDING_ANSWER",
   ANSWERED = "ANSWERED",
-  CORRECTLY_ANSWERED = "CORRECTLY_ANSWERED",
-  INCORRECTLY_ANSWERED = "INCORRECTLY_ANSWERED"
+  ANSWERED_CORRECTLY = "ANSWERED_CORRECTLY",
+  ANSWERED_INCORRECTLY = "ANSWERED_INCORRECTLY"
 }
 
 enum QuestionDifficulty {
@@ -25,7 +25,7 @@ const MEDIUM_TAKE_N_MOST_SIMILAR_ANSWERS = 10;
 
 type Question = {
   difficulty: QuestionDifficulty
-  colorKey: ColorKey | null, // TODO: make color because we need alternative keywords to judge the answer
+  colorKey: ColorKey | null,
   suggestedAnswers: ColorKeyList | null,
   answer: ColorKey | null,
   state: QuestionState,
@@ -75,5 +75,22 @@ function giveAnswer(question: Question, userInput) {
   return { ...question, answer, state: QuestionState.ANSWERED };
 }
 
+function isAnswerCorrect(question: Question, colorMap: ColorMap): boolean {
+  const correctColor = colorMap[question.colorKey];
+  return question.answer === correctColor.keyword || correctColor.alternativeKeywords.includes(question.answer);
+}
+
+function checkAnswer(question: Question, colorMap: ColorMap): Question {
+  if (question.state !== QuestionState.ANSWERED) {
+    throw new Error("can only check answer of an answered question");
+  }
+
+  const newState = isAnswerCorrect(question, colorMap)
+    ? QuestionState.ANSWERED_CORRECTLY
+    : QuestionState.ANSWERED_INCORRECTLY;
+
+  return { ...question, state: newState };
+}
+
 export type { Question };
-export { newQuestion, QuestionDifficulty, QuestionState, giveAnswer };
+export { newQuestion, QuestionDifficulty, QuestionState, giveAnswer, checkAnswer };

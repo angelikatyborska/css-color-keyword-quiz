@@ -1,5 +1,6 @@
-import { newQuestion, QuestionDifficulty, QuestionState, giveAnswer } from "../src/question";
+import { newQuestion, QuestionDifficulty, QuestionState, giveAnswer, checkAnswer } from "../src/question";
 import { range, unique } from "../src/array";
+import { dataObjectToColor } from "../src/data/tranform";
 
 const diffMatrix = {
   c0: {
@@ -107,6 +108,40 @@ describe("question", () => {
       let question = newQuestion("c0", QuestionDifficulty.HARD, diffMatrix);
       question = giveAnswer(question, "foo");
       expect(question.answer).toEqual("foo");
+    });
+  });
+
+  describe("checkAnswer", () => {
+    test("when answered correctly", () => {
+      let question = newQuestion("c0", QuestionDifficulty.EASY, diffMatrix);
+      question = giveAnswer(question, "c0");
+      question = checkAnswer(question, { c0: dataObjectToColor({ keyword: "c0", hex: "#F0FF00" }) });
+      expect(question.state).toEqual(QuestionState.ANSWERED_CORRECTLY);
+    });
+
+    test("when answered incorrectly", () => {
+      let question = {
+        ...newQuestion("c0", QuestionDifficulty.EASY, diffMatrix),
+        suggestedAnswers: ["c0", "c100", "c200", "c300"]
+      };
+
+      question = giveAnswer(question, "c100");
+      question = checkAnswer(question, { c0: dataObjectToColor({ keyword: "c0", hex: "#F0FF00" }) });
+      expect(question.state).toEqual(QuestionState.ANSWERED_INCORRECTLY);
+    });
+
+    test("can only check answer of answered questions", () => {
+      const question = newQuestion("c0", QuestionDifficulty.EASY, diffMatrix);
+
+      expect(() => checkAnswer(question, {}))
+        .toThrow("can only check answer of an answered question");
+    });
+
+    test("accepts alternative keywords as correct answer", () => {
+      let question = newQuestion("c0", QuestionDifficulty.HARD, diffMatrix);
+      question = giveAnswer(question, "czero");
+      question = checkAnswer(question, { c0: dataObjectToColor({ keyword: "c0", hex: "#F0FF00", alternativeKeywords: ["czero"] }) });
+      expect(question.state).toEqual(QuestionState.ANSWERED_CORRECTLY);
     });
   });
 });

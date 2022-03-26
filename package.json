@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "test": "jest",
+    "lint": "npm run check-types && npm run eslint -- --fix",
     "eslint": "eslint . --ext .js --ext .ts",
+    "check-types": "tsc --noEmit",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",

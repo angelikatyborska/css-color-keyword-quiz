@@ -1,5 +1,6 @@
 import type { ColorMap, ColorDiffMatrix, ColorKeyList, ColorKey } from "./color";
-import type { Question, QuestionDifficulty } from "./question";
+import type { Question } from "./question";
+import { QuestionDifficulty } from "./question";
 import { shuffle } from "./array";
 
 enum GameState {
@@ -14,6 +15,8 @@ type Game = {
   colors: ColorMap,
   diffMatrix: ColorDiffMatrix,
   currentQuestion: Question,
+  correctAnswerCount: number,
+  incorrectAnswerCount: number,
   upcomingColors: ColorKeyList,
   lives: number,
   state: GameState,
@@ -25,7 +28,8 @@ function newGame(colors: ColorMap, diffMatrix: ColorDiffMatrix) : Game {
   const lives = 3;
   const state = GameState.NEW;
   const currentQuestion = null;
-  const currentAnswer = null;
+  const correctAnswerCount = 0;
+  const incorrectAnswerCount = 0;
 
   return {
     difficulty,
@@ -33,14 +37,11 @@ function newGame(colors: ColorMap, diffMatrix: ColorDiffMatrix) : Game {
     diffMatrix,
     upcomingColors,
     currentQuestion,
-    currentAnswer,
+    correctAnswerCount,
+    incorrectAnswerCount,
     lives,
     state
   };
-}
-
-function setAnswer(game: Game, currentAnswer: ColorKey): GameState {
-  return { ...game, currentAnswer };
 }
 
 export type { Game };

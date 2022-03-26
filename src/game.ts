@@ -22,7 +22,7 @@ type Game = {
   state: GameState,
 }
 
-function newGame(colors: ColorMap, diffMatrix: ColorDiffMatrix) : Game {
+function newGame(colors: ColorMap, diffMatrix: ColorDiffMatrix): Game {
   const difficulty = QuestionDifficulty.EASY;
   const upcomingColors = shuffle(Object.keys(colors));
   const lives = 3;

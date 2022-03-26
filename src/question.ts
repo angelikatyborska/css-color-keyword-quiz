@@ -48,7 +48,7 @@ function chooseSuggestedAnswers(colorKey: ColorKey, difficulty: QuestionDifficul
   return shuffle(suggestedAnswers);
 }
 
-function newQuestion(colorKey: ColorKey, difficulty: QuestionDifficulty, diffMatrix: ColorDiffMatrix) {
+function newQuestion(colorKey: ColorKey, difficulty: QuestionDifficulty, diffMatrix: ColorDiffMatrix): Question {
   const suggestedAnswers = chooseSuggestedAnswers(colorKey, difficulty, diffMatrix);
   const answer = null;
   const state = QuestionState.PENDING_ANSWER;
@@ -61,7 +61,7 @@ function newQuestion(colorKey: ColorKey, difficulty: QuestionDifficulty, diffMat
   };
 }
 
-function giveAnswer(question: Question, userInput) {
+function giveAnswer(question: Question, userInput): Question {
   if (question.state !== QuestionState.PENDING_ANSWER) {
     throw new Error("can only answer an unanswered question");
   }

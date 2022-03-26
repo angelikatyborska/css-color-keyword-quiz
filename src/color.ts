@@ -1,4 +1,4 @@
-type hex = string;
+type Hex = string;
 
 type HSL = {
   h: number, // from 0 to 360
@@ -16,7 +16,7 @@ type ColorKey = string;
 
 type Color = {
   keyword: ColorKey;
-  hex: hex;
+  hex: Hex;
   rgb: RGB;
   alternativeKeywords: Array<string>;
 }
@@ -35,8 +35,16 @@ const DIFF_VALUE_FOR_SYNONYMS = 50;
 
 const HEX_REGEX = /^#([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 
+function hexToRGB(hex: Hex): RGB {
+  const result = HEX_REGEX.exec(hex);
+  const r = parseInt(result[1], 16);
+  const g = parseInt(result[2], 16);
+  const b = parseInt(result[3], 16);
+  return { r, g, b };
+}
+
 // TODO: decide if this is needed
-function hexToHSL(hex: hex) : HSL {
+function hexToHSL(hex: Hex): HSL {
   let { r, g, b } = hexToRGB(hex);
   r /= MAX_RGB_COMPONENT;
   g /= MAX_RGB_COMPONENT;
@@ -61,23 +69,15 @@ function hexToHSL(hex: hex) : HSL {
   return { h, s, l };
 }
 
-function hexToRGB(hex: hex) : RGB {
-  const result = HEX_REGEX.exec(hex);
-  const r = parseInt(result[1], 16);
-  const g = parseInt(result[2], 16);
-  const b = parseInt(result[3], 16);
-  return { r, g, b };
-}
-
-function sanitizeKeyword(keyword) {
+function sanitizeKeyword(keyword): ColorKey {
   return keyword?.toLowerCase().trim();
 }
 
-function sanitizeHex(hex) {
+function sanitizeHex(hex): Hex {
   return hex?.toLowerCase().trim();
 }
 
-function calculateColorDiff(color1: Color, color2: Color) : number {
+function calculateColorDiff(color1: Color, color2: Color): number {
   const rDiff = Math.abs(color1.rgb.r - color2.rgb.r);
   const gDiff = Math.abs(color1.rgb.g - color2.rgb.g);
   const bDiff = Math.abs(color1.rgb.b - color2.rgb.b);
@@ -116,7 +116,7 @@ function calculateColorDiff(color1: Color, color2: Color) : number {
 }
 
 // TODO: do this during the build
-function calculateDiffMatrix(colors: ColorMap) : ColorDiffMatrix {
+function calculateDiffMatrix(colors: ColorMap): ColorDiffMatrix {
   return Object.values(colors).reduce((acc1, color1) => {
     return {
       ...acc1,

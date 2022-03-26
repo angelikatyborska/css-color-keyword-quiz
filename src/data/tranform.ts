@@ -2,7 +2,16 @@ import type { Color } from "../color";
 import { hexToRGB, HEX_REGEX, sanitizeKeyword, sanitizeHex } from "../color";
 import type { ColorKeyList, ColorKey } from "../color";
 
-function loadColors(data: Array<any>) : Record<string, Color> { // eslint-disable-line @typescript-eslint/no-explicit-any
+function dataObjectToColor(c: {keyword: ColorKey, alternativeKeywords?: ColorKeyList, hex: string}): Color {
+  return {
+    keyword: sanitizeKeyword(c.keyword),
+    alternativeKeywords: (c.alternativeKeywords || []).map(k => sanitizeKeyword(k)),
+    hex: sanitizeHex(c.hex),
+    rgb: hexToRGB(sanitizeHex(c.hex)),
+  };
+}
+
+function loadColors(data: Array<any>): Record<string, Color> { // eslint-disable-line @typescript-eslint/no-explicit-any
   const knownKeys = ["keyword", "hex", "alternativeKeywords"];
 
   data.forEach(c => {
@@ -84,15 +93,6 @@ function loadColors(data: Array<any>) : Record<string, Color> { // eslint-disabl
       [color.keyword]: color
     };
   }, []);
-}
-
-function dataObjectToColor(c: {keyword: ColorKey, alternativeKeywords?: ColorKeyList, hex: string}) {
-  return {
-    keyword: sanitizeKeyword(c.keyword),
-    alternativeKeywords: (c.alternativeKeywords || []).map(k => sanitizeKeyword(k)),
-    hex: sanitizeHex(c.hex),
-    rgb: hexToRGB(sanitizeHex(c.hex)),
-  };
 }
 
 export { loadColors, dataObjectToColor };

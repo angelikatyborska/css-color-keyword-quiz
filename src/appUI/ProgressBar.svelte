@@ -2,17 +2,18 @@
 export let game;
 import { range } from "../app/array"
 import HeartIcon from '@fortawesome/fontawesome-free/svgs/solid/heart.svg'
+$: livesLabel = `You have ${game.livesLeft} lives left`
 </script>
 
 <aside>
-  <div>
+  <div title="{livesLabel}" aria-label="{livesLabel}">
     {#each range(1, game.livesTotal) as n}
       <span class:heart={true} class:heart-lost={n > game.livesLeft}>
         <HeartIcon width="20px" />
       </span>
     {/each}
   </div>
-  <div>
+  <div title="">
     {game.totalQuestionCount - game.upcomingColorKeys.length} / {game.totalQuestionCount}
   </div>
 </aside>

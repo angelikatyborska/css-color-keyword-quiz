@@ -1,7 +1,8 @@
 <script lang="ts">
-  import GearIcon from '@fortawesome/fontawesome-free/svgs/solid/gear.svg'
-  import ChartIcon from '@fortawesome/fontawesome-free/svgs/solid/chart-simple.svg'
-  import QuestionIcon from '@fortawesome/fontawesome-free/svgs/solid/circle-question.svg'
+  import 'focus-visible';
+  import GearIcon from '@fortawesome/fontawesome-free/svgs/solid/gear.svg';
+  import ChartIcon from '@fortawesome/fontawesome-free/svgs/solid/chart-simple.svg';
+  import QuestionIcon from '@fortawesome/fontawesome-free/svgs/solid/circle-question.svg';
   import DebugTableSimilar from "./appUI/DebugTableDiff.svelte";
   import Question from "./appUI/Question.svelte";
   import { loadColors } from "./app/data/tranform.ts";
@@ -17,7 +18,7 @@
   const REVEAL_ANSWER_TIMEOUT = 1000;
   const NEW_QUESTION_TIMEOUT = 2000;
 
-  let game = newGame(colors, diffMatrix, QuestionDifficulty.EASY)
+  let game = newGame(colors, diffMatrix, QuestionDifficulty.MEDIUM)
   game = startGame(game)
   game = getNextQuestion(game)
 
@@ -50,7 +51,7 @@
     {/if}
 
     {#if hasWon(game)}
-      <div>woohoo</div>
+      <div>What an absolute legend! You made it until the end.</div>
     {/if}
 
     {#if hasLost(game)}
@@ -91,7 +92,6 @@
     box-sizing: border-box;
   }
 
-  // TODO: focus visible
   :global(*):focus {
     outline: 3px solid $accent;
   }

@@ -13,7 +13,7 @@
     </div>
   </div>
   <ul class="answers">
-    {#each question.suggestedAnswers as suggestedAnswer, index}
+    {#each question.suggestedAnswers as suggestedAnswer, index (question.colorKey + suggestedAnswer)}
       <li class="answer">
         <AnswerButton
           colors={colors}

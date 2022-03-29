@@ -4,6 +4,9 @@
   export let onGiveAnswer;
   export let suggestedAnswer;
   export let isLast;
+
+  import { fade, fly } from 'svelte/transition';
+
   import { wasAnswerChecked, wasAnswerGiven } from "../app/question"
   $: wasNotSelected = wasAnswerGiven(question) && question.answer !== suggestedAnswer
   $: wasSelected = wasAnswerGiven(question) && question.answer === suggestedAnswer
@@ -40,6 +43,15 @@
     @include button();
     position: relative;
     z-index: 1;
+    //top: 0;
+    //left: 0;
+    //box-shadow: 3px 3px 3px 0 rgba($black, 0.3);
+
+    //&:hover, &:active, &:global([data-focus-visible-added]), &.answer-button-selected {
+    //  top: 2px;
+    //  left: 2px;
+    //  box-shadow: 3px 3px 1px 0 rgba($black, 0.3);
+    //}
 
     &:focus {
       z-index: 2;
@@ -79,13 +91,24 @@
     padding: 10px;
     border-radius: $button-border-radius;
     transition: all $transition-duration ease;
+    background-color: rgba($light-gray, 0);
 
-    // checkered pattern
-    $pattern-size: $margin-small;
-    background: $light-gray;
-    background-image: repeating-linear-gradient(45deg, $light-gray 25%, transparent 25%, transparent 75%, $light-gray 75%, $light-gray), repeating-linear-gradient(45deg, $light-gray 25%, darken($light-gray, 10) 25%, darken($light-gray, 10) 75%, $light-gray 75%, $light-gray);
-    background-position: 0 0, $pattern-size $pattern-size;
-    background-size: 2 * $pattern-size 2 * $pattern-size;
+    &:before {
+      // checkered pattern
+      content: '';
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      $pattern-size: $margin-small;
+      background: $light-gray;
+      background-image: repeating-linear-gradient(45deg, $light-gray 25%, transparent 25%, transparent 75%, $light-gray 75%, $light-gray), repeating-linear-gradient(45deg, $light-gray 25%, darken($light-gray, 10) 25%, darken($light-gray, 10) 75%, $light-gray 75%, $light-gray);
+      background-position: 0 0, $pattern-size $pattern-size;
+      background-size: 2 * $pattern-size 2 * $pattern-size;
+    }
   }
 
   .answer-button-text {

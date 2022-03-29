@@ -11,6 +11,7 @@
   import {calculateDiffMatrix} from "./app/color";
   import {QuestionDifficulty} from "./app/question";
   import GameProgressBar from "./appUI/ProgressBar.svelte";
+  import DifficultyChooser from "./appUI/DifficultyChooser.svelte";
 
   const colors = loadColors(rawJSONData);
   const diffMatrix = calculateDiffMatrix(colors)
@@ -18,11 +19,17 @@
   const REVEAL_ANSWER_TIMEOUT = 1000;
   const NEW_QUESTION_TIMEOUT = 2000;
 
-  let game = newGame(colors, diffMatrix, QuestionDifficulty.MEDIUM)
-  game = startGame(game)
-  game = getNextQuestion(game)
+  let game = null
 
-  const onGiveAnswer = (userInput) => {
+  let onDifficultyChoose = (difficulty) => {
+    game = newGame(colors, diffMatrix, difficulty)
+    game = startGame(game)
+    game = getNextQuestion(game)
+  }
+
+  let onRestart = () => { game = null }
+
+  $: onGiveAnswer = (userInput) => {
     game = giveAnswerToQuestion(game, userInput)
     setTimeout(() => {
       game = checkAnswerToQuestion(game)
@@ -46,21 +53,28 @@
   </header>
 
   <main>
-    {#if game.currentQuestion}
-      <Question question={game.currentQuestion} colors={colors} onGiveAnswer={onGiveAnswer} />
-    {/if}
+    {#if game}
+      {#if game.currentQuestion}
+        <Question question={game.currentQuestion} colors={colors} onGiveAnswer={onGiveAnswer} />
+      {/if}
 
-    {#if hasWon(game)}
-      <div>What an absolute legend! You made it until the end.</div>
-    {/if}
+      {#if hasWon(game)}
+        <div>What an absolute legend! You made it until the end.</div>
+      {/if}
 
-    {#if hasLost(game)}
-      <div>uh-oh, looks like you're out of lives</div>
-    {/if}
+      {#if hasLost(game)}
+        <div>
+          uh-oh, looks like you're out of lives
+          <button type="button" on:click={onRestart}>Try again</button>
+        </div>
+      {/if}
 
-    <div class="game-progress-bar">
-      <GameProgressBar game={game} />
-    </div>
+      <div class="game-progress-bar">
+        <GameProgressBar game={game} />
+      </div>
+    {:else}
+      <DifficultyChooser onChoose={onDifficultyChoose} />
+    {/if}
   </main>
 
   <footer>
@@ -80,6 +94,7 @@
     height: 100%;
     font-size: 18px;
     background: $light-gray;
+    color: $text-color;
   }
 
   :global(body) {
@@ -94,6 +109,14 @@
 
   :global(*):focus {
     outline: 3px solid $accent;
+  }
+
+  :global(a) {
+    color: inherit;
+
+    &:visited {
+      color: inherit;
+    }
   }
 
   .wrapper {

@@ -19,11 +19,20 @@
   border-radius: $button-border-radius;
   width: 100%;
   cursor: pointer;
+  font-size: 1rem;
+  transition: all $transition-duration ease;
+
+  &:disabled {
+    cursor: default;
+  }
 }
 
-$button-background-color: #cccccc;
+$light-gray: #eeeeee;
 $black: #000000;
 $white: #ffffff;
+$accent: #6a5bc1;
+
+$transition-duration: 0.3s;
 
 $min-width: 320px;
 
@@ -36,8 +45,8 @@ $margin-huge: 64px;
 
 $text-color: $black;
 $question-width: $min-width - $margin-big * 2;
-$button-border-radius: $margin-huge;
-$button-outer-border-width: 1px;
-$button-outer-border-color: $button-background-color;
+$button-border-radius: 0;
+$button-outer-border-width: 0px;
+$button-outer-border-color: $light-gray;
 $button-inner-border-width: $margin-tiny;
 $button-inner-border-color: $white

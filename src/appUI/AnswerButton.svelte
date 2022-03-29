@@ -5,6 +5,7 @@
   export let suggestedAnswer;
   export let isLast;
   import { wasAnswerChecked, wasAnswerGiven } from "../app/question"
+  $: wasNotSelected = wasAnswerGiven(question) && question.answer !== suggestedAnswer
   $: wasSelected = wasAnswerGiven(question) && question.answer === suggestedAnswer
   $: wasSelectedCorrectly = wasAnswerChecked(question) && question.colorKey === suggestedAnswer
   $: wasSelectedIncorrectly = wasAnswerChecked(question) && question.answer === suggestedAnswer && question.colorKey !== suggestedAnswer
@@ -13,6 +14,7 @@
 
 <button
   type="button"
+  disabled="{wasNotSelected}"
   class:answer-button="{true}"
   class:answer-button-last="{isLast}"
   class:answer-button-selected={wasSelected}
@@ -43,8 +45,16 @@
       z-index: 2;
     }
 
+    &:disabled {
+      &:not(.answer-button-correct-answer) {
+        .answer-button-text {
+          color: rgba($text-color, 0.5);
+        }
+      }
+    }
+
     &:not(.answer-button-last) {
-      margin-bottom: -1 * $button-outer-border-width;
+      margin-bottom: $margin-small;
     }
 
     &:before {
@@ -68,11 +78,12 @@
     border: $button-inner-border-width solid $button-inner-border-color;
     padding: 10px;
     border-radius: $button-border-radius;
+    transition: all $transition-duration ease;
 
     // checkered pattern
     $pattern-size: $margin-small;
-    background: $button-background-color;
-    background-image:  repeating-linear-gradient(45deg, $button-background-color 25%, transparent 25%, transparent 75%, $button-background-color 75%, $button-background-color), repeating-linear-gradient(45deg, $button-background-color 25%, darken($button-background-color, 10) 25%, darken($button-background-color, 10) 75%, $button-background-color 75%, $button-background-color);
+    background: $light-gray;
+    background-image: repeating-linear-gradient(45deg, $light-gray 25%, transparent 25%, transparent 75%, $light-gray 75%, $light-gray), repeating-linear-gradient(45deg, $light-gray 25%, darken($light-gray, 10) 25%, darken($light-gray, 10) 75%, $light-gray 75%, $light-gray);
     background-position: 0 0, $pattern-size $pattern-size;
     background-size: 2 * $pattern-size 2 * $pattern-size;
   }
@@ -82,6 +93,7 @@
     color: $text-color;
     background-color: $button-inner-border-color;
     padding: $margin-micro $margin-tiny;
+    transition: all $transition-duration ease;
   }
 
   .answer-button-selected {
@@ -92,7 +104,7 @@
 
   .answer-button-correct-answer {
     .answer-button-inner {
-      background-image: none;
+      background-image: repeating-linear-gradient(45deg, transparent 0%, transparent 100%);
     }
 
     &:after {
@@ -102,7 +114,7 @@
 
   .answer-button-selected-incorrectly {
     .answer-button-inner {
-      background-image: none;
+      background-image: repeating-linear-gradient(45deg, transparent 0%, transparent 100%);
     }
 
     &:after {

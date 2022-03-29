@@ -48,7 +48,7 @@
     display: inline-block;
     color: $text-color;
     background-color :$button-inner-border-color;
-    padding: $margin-micro $margin-tiny;
+    padding: $margin-micro $margin-small;
     font-size: 2em;
   }
 

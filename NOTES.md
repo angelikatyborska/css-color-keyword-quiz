@@ -19,3 +19,5 @@ Text input
 ## Ideas
 - twitter result share
 - offline mode
+- dark mode with three settings: light, dark, system
+- prefers reduced motion: yes, no, system

@@ -14,6 +14,9 @@
   const colors = loadColors(rawJSONData);
   const diffMatrix = calculateDiffMatrix(colors)
 
+  const REVEAL_ANSWER_TIMEOUT = 1000;
+  const NEW_QUESTION_TIMEOUT = 2000;
+
   let game = newGame(colors, diffMatrix, QuestionDifficulty.EASY)
   game = startGame(game)
   game = getNextQuestion(game)
@@ -25,8 +28,8 @@
 
       setTimeout(() => {
         game = getNextQuestion(game)
-      }, 2000)
-    }, 1000)
+      }, NEW_QUESTION_TIMEOUT)
+    }, REVEAL_ANSWER_TIMEOUT)
   }
 </script>
 
@@ -54,7 +57,9 @@
       <div>uh-oh, looks like you're out of lives</div>
     {/if}
 
-    <GameProgressBar game={game} />
+    <div class="game-progress-bar">
+      <GameProgressBar game={game} />
+    </div>
   </main>
 
   <footer>
@@ -72,6 +77,8 @@
     position: relative;
     width: 100%;
     height: 100%;
+    font-size: 18px;
+    background: $light-gray;
   }
 
   :global(body) {
@@ -84,6 +91,11 @@
     box-sizing: border-box;
   }
 
+  // TODO: focus visible
+  :global(*):focus {
+    outline: 3px solid $accent;
+  }
+
   .wrapper {
     display: flex;
     flex-direction: column;
@@ -93,9 +105,13 @@
 
   header {
     flex: 0 0 auto;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
+  }
+
+  nav {
+    justify-self: end;
   }
 
   main {
@@ -111,5 +127,9 @@
     text-align: center;
     padding: 1em;
     margin: 0 auto;
+  }
+
+  .game-progress-bar {
+    margin-top: $margin-medium;
   }
 </style>

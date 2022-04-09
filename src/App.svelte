@@ -127,7 +127,7 @@
   }
 
   :global(h2) {
-    font-size: $font-small;
+    font-size: $font-medium;
 
     @media(min-width: $tablet-breakpoint) {
       font-size: $font-medium;
@@ -139,11 +139,12 @@
   }
 
   :global(*):focus {
-    outline: 3px solid $accent;
+    outline: 2px solid $accent;
   }
 
   :global(a) {
     color: inherit;
+    border-radius: $button-text-border-radius;
 
     &:visited {
       color: inherit;
@@ -232,6 +233,6 @@
   }
 
   .game-progress-bar {
-    margin-top: $margin-medium;
+    margin-top: $margin-big;
   }
 </style>

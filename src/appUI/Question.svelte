@@ -55,6 +55,7 @@
     padding: $margin-micro $margin-small;
     margin: 0;
     font-size: $font-medium;
+    border-radius: $button-text-border-radius;
   }
 
   .answers {

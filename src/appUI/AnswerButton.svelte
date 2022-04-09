@@ -120,6 +120,7 @@
     background-color: $button-inner-border-color;
     padding: $margin-micro $margin-tiny;
     transition: all $transition-duration ease;
+    border-radius: $button-text-border-radius;
   }
 
   .answer-button-selected {

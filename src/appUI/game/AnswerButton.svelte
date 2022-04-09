@@ -7,7 +7,7 @@
 
   import { fade, fly } from 'svelte/transition';
 
-  import { wasAnswerChecked, wasAnswerGiven } from "../app/question"
+  import { wasAnswerChecked, wasAnswerGiven } from "../../app/question"
   $: wasNotSelected = wasAnswerGiven(question) && question.answer !== suggestedAnswer
   $: wasSelected = wasAnswerGiven(question) && question.answer === suggestedAnswer
   $: wasSelectedCorrectly = wasAnswerChecked(question) && question.colorKey === suggestedAnswer
@@ -37,7 +37,7 @@
 
 
 <style lang="scss">
-  @import "./shared";
+  @import "src/appUI/shared";
 
   $disabled-text-color: rgba($text-color, 0.5);
 

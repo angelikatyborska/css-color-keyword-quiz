@@ -43,6 +43,9 @@ $black: #000000;
 $white: #ffffff;
 $accent: #e53045;
 
+$background-color: $white;
+$text-color: $black;
+
 $transition-duration: 0.3s;
 
 $min-width: 320px;
@@ -60,11 +63,11 @@ $font-medium: 1.4rem;
 $font-small: 1rem;
 $font-tiny: 0.8rem;
 
+$body-padding: $margin-medium;
 $icon-button-padding: $margin-small;
 $icon-size-small: 16px;
 $icon-size-big: 22px;
 
-$text-color: $black;
 $question-width: $min-width - $margin-big * 2;
 $button-border-radius: $margin-small;
 $button-outer-border-width: 1px;

@@ -1,11 +1,14 @@
 <script lang="ts">
 export let game;
-import { range } from "../app/array"
+import { range } from "../../app/array"
 import HeartIcon from '@fortawesome/fontawesome-free/svgs/solid/heart.svg'
-$: livesLabel = `You have ${game.livesLeft} lives left`
+$: livesLabel = `${game.livesLeft} lives left`
 </script>
 
 <aside>
+  <div title="">
+    {game.totalQuestionCount - game.upcomingColorKeys.length} / {game.totalQuestionCount}
+  </div>
   <div title="{livesLabel}" aria-label="{livesLabel}">
     {#each range(1, game.livesTotal) as n}
       <span class:heart={true} class:heart-lost={n > game.livesLeft}>
@@ -13,13 +16,16 @@ $: livesLabel = `You have ${game.livesLeft} lives left`
       </span>
     {/each}
   </div>
-  <div title="">
-    {game.totalQuestionCount - game.upcomingColorKeys.length} / {game.totalQuestionCount}
-  </div>
 </aside>
 
 <style lang="scss">
-  @import "./shared";
+  @import "src/appUI/shared";
+
+  aside {
+    display: flex;
+    justify-content: space-between;
+    font-size: $font-tiny;
+  }
 
   .heart {
     :global(svg *) {

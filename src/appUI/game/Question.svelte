@@ -2,7 +2,7 @@
   export let colors;
   export let question;
   export let onGiveAnswer;
-  import { wasAnswerChecked, wasAnswerGiven } from "../app/question"
+  import { wasAnswerChecked, wasAnswerGiven } from "../../app/question"
   import AnswerButton from "./AnswerButton.svelte"
 </script>
 
@@ -32,7 +32,7 @@
 </div>
 
 <style lang="scss">
-  @import "./shared";
+  @import "src/appUI/shared";
 
   .question-color-container {
     width: $question-width;

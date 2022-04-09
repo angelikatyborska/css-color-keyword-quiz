@@ -9,21 +9,25 @@
 <div class="question">
   <div class="question-color-container">
     <div class="question-color" style="background-color: {colors[question.colorKey].hex}">
-      <span class="question-color-text">?</span>
+      <h2 class="question-color-text">?</h2>
     </div>
   </div>
   <ul class="answers">
-    {#each question.suggestedAnswers as suggestedAnswer, index (question.colorKey + suggestedAnswer)}
-      <li class="answer">
-        <AnswerButton
-          colors={colors}
-          question={question}
-          onGiveAnswer={onGiveAnswer}
-          suggestedAnswer={suggestedAnswer}
-          isLast={index === question.suggestedAnswers.length - 1}
-        />
-      </li>
-    {/each}
+    {#if question.suggestedAnswers}
+      {#each question.suggestedAnswers as suggestedAnswer, index (question.colorKey + suggestedAnswer)}
+        <li class="answer">
+          <AnswerButton
+            colors={colors}
+            question={question}
+            onGiveAnswer={onGiveAnswer}
+            suggestedAnswer={suggestedAnswer}
+            isLast={index === question.suggestedAnswers.length - 1}
+          />
+        </li>
+      {/each}
+    {:else}
+      <input type="text" />
+    {/if}
   </ul>
 </div>
 
@@ -49,7 +53,8 @@
     color: $text-color;
     background-color :$button-inner-border-color;
     padding: $margin-micro $margin-small;
-    font-size: 2em;
+    margin: 0;
+    font-size: $font-medium;
   }
 
   .answers {
@@ -57,5 +62,9 @@
     margin: 0 auto;
     padding: 0;
     width: $question-width;
+  }
+
+  input {
+    @include button();
   }
 </style>

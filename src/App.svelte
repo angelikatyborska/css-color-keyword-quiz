@@ -46,9 +46,15 @@
     <div></div>
     <h1>CSS Color Quiz</h1>
     <nav>
-      <QuestionIcon width="30px"/>
-      <ChartIcon width="30px"/>
-      <GearIcon width="30px"/>️
+      <button type="button" class="icon-button">
+        <QuestionIcon width="30px"/>
+      </button>
+      <button type="button" class="icon-button">
+        <ChartIcon width="30px"/>
+      </button>
+      <button type="button" class="icon-button">
+        <GearIcon width="30px"/>️
+      </button>
     </nav>
   </header>
 
@@ -59,13 +65,19 @@
       {/if}
 
       {#if hasWon(game)}
-        <div>What an absolute legend! You made it until the end.</div>
+        <div>
+          <h2>What an absolute legend!</h2>
+          <p>You made it until the end.</p>
+        </div>
       {/if}
 
       {#if hasLost(game)}
         <div>
-          uh-oh, looks like you're out of lives
-          <button type="button" on:click={onRestart}>Try again</button>
+          <h2>Game Over</h2>
+          <p>Uh-oh, looks like you're out of lives</p>
+          <div>
+            <button type="button" on:click={onRestart}>Try again</button>
+          </div>
         </div>
       {/if}
 
@@ -93,7 +105,7 @@
     width: 100%;
     height: 100%;
     font-size: 18px;
-    background: $light-gray;
+    background-color: $white;
     color: $text-color;
   }
 
@@ -101,6 +113,25 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     margin: 0;
     padding: 0 $margin-medium;
+  }
+
+  :global(h1), :global(h2) {
+    font-family: 'DM Serif Display', serif;
+  }
+
+  :global(h1) {
+    font-size: $font-medium;
+    @media(min-width: $tablet-breakpoint) {
+      font-size: $font-big;
+    }
+  }
+
+  :global(h2) {
+    font-size: $font-small;
+
+    @media(min-width: $tablet-breakpoint) {
+      font-size: $font-medium;
+    }
   }
 
   :global(*), :global(*:before), :global(*:after) {
@@ -129,12 +160,30 @@
   header {
     flex: 0 0 auto;
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 0 auto auto;
     align-items: center;
+    border-bottom: $button-outer-border-width solid $button-outer-border-color;
+
+    h1 {
+      margin: $margin-small 0;
+      align-self: start;
+      text-align: left;
+    }
+
+    @media(min-width: $tablet-breakpoint) {
+      grid-template-columns: 1fr auto 1fr;
+
+      h1 {
+        align-self: center;
+        text-align: center;
+      }
+    }
   }
 
   nav {
     justify-self: end;
+    margin-left: $margin-small;
+    margin-right: -1 * $icon-button-padding;
   }
 
   main {
@@ -143,13 +192,43 @@
 
   footer {
     flex: 0 0 auto;
-    font-size: 0.8em;
+    font-size: $font-tiny;
   }
 
   main {
     text-align: center;
-    padding: 1em;
-    margin: 0 auto;
+    margin: 1em;
+    max-width: $min-width;
+    align-self: center;
+  }
+
+  .icon-button {
+    @include button_reset();
+    cursor: pointer;
+    width: $icon-size-small + 2 * $icon-button-padding;
+    height: $icon-size-small + 2 * $icon-button-padding;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all $transition-duration ease, outline 0ms ease;
+
+    :global(svg) {
+      height: $icon-size-small;
+    }
+
+    &:hover, &:active {
+      background-color: lighten($light-gray, 15);
+    }
+
+    @media(min-width: $tablet-breakpoint) {
+      width: $icon-size-big + 2 * $icon-button-padding;
+      height: $icon-size-big + 2 * $icon-button-padding;
+
+      :global(svg) {
+        height: $icon-size-big;
+      }
+    }
   }
 
   .game-progress-bar {

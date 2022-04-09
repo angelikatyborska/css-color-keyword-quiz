@@ -12,22 +12,33 @@
   }
 }
 
-@mixin button() {
+@mixin button-base() {
   @include button-reset();
   display: block;
   border: $button-outer-border-width solid $button-outer-border-color;
   border-radius: $button-border-radius;
   width: 100%;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: $font-small;
   transition: all $transition-duration ease, outline 0ms ease;
 
   &:disabled {
     cursor: default;
   }
+
+  &:hover, &:active {
+    background-color: lighten($light-gray, 15);
+  }
 }
 
-$light-gray: #eeeeee;
+@mixin button() {
+  @include button-base();
+  padding: $margin-small $margin-medium;
+  background-color: $white;
+  border: $button-outer-border-width solid $button-outer-border-color;
+}
+
+$light-gray: #cccccc;
 $black: #000000;
 $white: #ffffff;
 $accent: #e53045;
@@ -35,6 +46,7 @@ $accent: #e53045;
 $transition-duration: 0.3s;
 
 $min-width: 320px;
+$tablet-breakpoint: 600px;
 
 $margin-micro: 2px;
 $margin-tiny: 4px;
@@ -43,10 +55,19 @@ $margin-medium: 16px;
 $margin-big: 32px;
 $margin-huge: 64px;
 
+$font-big: 2rem;
+$font-medium: 1.4rem;
+$font-small: 1rem;
+$font-tiny: 0.8rem;
+
+$icon-button-padding: $margin-small;
+$icon-size-small: 16px;
+$icon-size-big: 22px;
+
 $text-color: $black;
 $question-width: $min-width - $margin-big * 2;
-$button-border-radius: 0;
-$button-outer-border-width: 0px;
+$button-border-radius: $margin-small;
+$button-outer-border-width: 1px;
 $button-outer-border-color: $light-gray;
 $button-inner-border-width: $margin-tiny;
 $button-inner-border-color: $white

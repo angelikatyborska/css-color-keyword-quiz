@@ -39,8 +39,10 @@
 <style lang="scss">
   @import "./shared";
 
+  $disabled-text-color: rgba($text-color, 0.5);
+
   .answer-button {
-    @include button();
+    @include button-base();
     position: relative;
     z-index: 1;
     //top: 0;
@@ -60,7 +62,7 @@
     &:disabled {
       &:not(.answer-button-correct-answer) {
         .answer-button-text {
-          color: rgba($text-color, 0.5);
+          color: $disabled-text-color;
         }
       }
     }
@@ -88,7 +90,7 @@
     display: block;
     width: $question-width - 2 * $button-outer-border-width;
     border: $button-inner-border-width solid $button-inner-border-color;
-    padding: 10px;
+    padding: $margin-small;
     border-radius: $button-border-radius;
     transition: all $transition-duration ease;
     background-color: rgba($light-gray, 0);
@@ -102,6 +104,7 @@
       right: 0;
       bottom: 0;
       left: 0;
+      border-radius: $button-border-radius;
 
       $pattern-size: $margin-small;
       background: $light-gray;
@@ -138,6 +141,10 @@
   .answer-button-selected-incorrectly {
     .answer-button-inner {
       background-image: repeating-linear-gradient(45deg, transparent 0%, transparent 100%);
+    }
+
+    .answer-button-text {
+      color: $disabled-text-color;
     }
 
     &:after {

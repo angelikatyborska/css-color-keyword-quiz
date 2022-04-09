@@ -2,7 +2,6 @@
   export let colors;
   export let question;
   export let onGiveAnswer;
-  import { wasAnswerChecked, wasAnswerGiven } from "../../app/question"
   import AnswerButton from "./AnswerButton.svelte"
 </script>
 
@@ -44,7 +43,7 @@
   .question-color {
     width: $question-width - 2 * $button-outer-border-width;
     border: $button-inner-border-width solid $button-inner-border-color;
-    padding: $margin-small;
+    padding: $margin-medium $margin-small;
     border-radius: $button-border-radius;
   }
 

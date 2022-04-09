@@ -1,11 +1,14 @@
 <script lang="ts">
+  import RightIcon from '@fortawesome/fontawesome-free/svgs/solid/arrow-right.svg';
+  import LeftIcon from '@fortawesome/fontawesome-free/svgs/solid/arrow-left.svg';
+
   export let colors;
   export let question;
   export let onGiveAnswer;
   export let suggestedAnswer;
   export let isLast;
 
-  import { fade, fly } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
 
   import { wasAnswerChecked, wasAnswerGiven } from "../../app/question"
   $: wasNotSelected = wasAnswerGiven(question) && question.answer !== suggestedAnswer
@@ -33,6 +36,18 @@
       {suggestedAnswer}
     </span>
   </span>
+
+  {#if wasSelected}
+    <span in:fly={{ x: -20, duration: 300 }} class="selected-answer-icon">
+      <RightIcon width="20px" aria-label="Selected answer" title="Selected answer"/>
+    </span>
+  {/if}
+
+  {#if isCorrectAnswer}
+    <span in:fly={{ x: 20, duration: 300 }} class="correct-answer-icon">
+      <LeftIcon width="20px" aria-label="Correct answer" title="Correct answer"/>
+    </span>
+  {/if}
 </button>
 
 
@@ -45,15 +60,6 @@
     @include button-base();
     position: relative;
     z-index: 1;
-    //top: 0;
-    //left: 0;
-    //box-shadow: 3px 3px 3px 0 rgba($black, 0.3);
-
-    //&:hover, &:active, &:global([data-focus-visible-added]), &.answer-button-selected {
-    //  top: 2px;
-    //  left: 2px;
-    //  box-shadow: 3px 3px 1px 0 rgba($black, 0.3);
-    //}
 
     &:focus {
       z-index: 2;
@@ -123,19 +129,9 @@
     border-radius: $button-text-border-radius;
   }
 
-  .answer-button-selected {
-    &:before {
-      content: '->';
-    }
-  }
-
   .answer-button-correct-answer {
     .answer-button-inner {
       background-image: repeating-linear-gradient(45deg, transparent 0%, transparent 100%);
-    }
-
-    &:after {
-      content: '<-';
     }
   }
 
@@ -147,9 +143,21 @@
     .answer-button-text {
       color: $disabled-text-color;
     }
+  }
 
-    &:after {
-      content: 'x';
-    }
+  .selected-answer-icon, .correct-answer-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .selected-answer-icon {
+    right: 100%;
+    margin-right: $margin-tiny;
+  }
+
+  .correct-answer-icon {
+    left: 100%;
+    margin-left: $margin-tiny;
   }
 </style>

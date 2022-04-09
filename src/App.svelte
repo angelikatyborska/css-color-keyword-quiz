@@ -57,7 +57,11 @@
       {/if}
 
       {#if hasLost(game)}
-        <GameOver onRestart={onRestart} />
+        <GameOver onRestart={onRestart}
+                  correctAnswerCount={game.correctAnswerCount}
+                  totalQuestionCount={game.totalQuestionCount}
+                  difficulty={game.difficulty}
+        />
       {/if}
     {:else}
       <DifficultyChooser onChoose={onDifficultyChoose} />

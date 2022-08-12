@@ -19,7 +19,8 @@
   @import "shared.scss";
 
   .icon-button {
-    @include button_reset();
+    @include button-reset();
+    @include button-rainbow-border();
     cursor: pointer;
     width: $icon-size-small + 2 * $icon-button-padding;
     height: $icon-size-small + 2 * $icon-button-padding;
@@ -31,10 +32,7 @@
 
     :global(svg) {
       height: $icon-size-small;
-    }
-
-    &:hover, &:active {
-      background-color: lighten($light-gray, 15);
+      z-index: 3;
     }
 
     @media(min-width: $tablet-breakpoint) {

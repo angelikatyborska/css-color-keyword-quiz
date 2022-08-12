@@ -11,7 +11,7 @@
   import { fly } from 'svelte/transition';
 
   import { wasAnswerChecked, wasAnswerGiven } from "../../app/question"
-  $: wasNotSelected = wasAnswerGiven(question) && question.answer !== suggestedAnswer
+  $: canGiveAnswer = !wasAnswerGiven(question);
   $: wasSelected = wasAnswerGiven(question) && question.answer === suggestedAnswer
   $: wasSelectedCorrectly = wasAnswerChecked(question) && question.colorKey === suggestedAnswer
   $: wasSelectedIncorrectly = wasAnswerChecked(question) && question.answer === suggestedAnswer && question.colorKey !== suggestedAnswer
@@ -20,7 +20,7 @@
 
 <button
   type="button"
-  disabled="{wasNotSelected}"
+  disabled="{!canGiveAnswer}"
   class:answer-button="{true}"
   class:answer-button-last="{isLast}"
   class:answer-button-selected={wasSelected}
@@ -54,8 +54,6 @@
 <style lang="scss">
   @import "src/appUI/shared";
 
-  $disabled-text-color: rgba($text-color, 0.5);
-
   .answer-button {
     @include button-base();
     position: relative;
@@ -66,7 +64,13 @@
     }
 
     &:disabled {
-      &:not(.answer-button-correct-answer) {
+      .answer-button-selected {
+        .answer-button-text {
+          color: $text-color;
+        }
+      }
+
+      .answer-button-selected-incorrectly {
         .answer-button-text {
           color: $disabled-text-color;
         }

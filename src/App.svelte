@@ -15,7 +15,7 @@
   const diffMatrix = calculateDiffMatrix(colors)
 
   const REVEAL_ANSWER_TIMEOUT = 1000;
-  const NEW_QUESTION_TIMEOUT = 2000;
+  // const NEW_QUESTION_TIMEOUT = 2000;
 
   let game = null
 
@@ -31,11 +31,11 @@
     game = giveAnswerToQuestion(game, userInput)
     setTimeout(() => {
       game = checkAnswerToQuestion(game)
-
-      setTimeout(() => {
-        game = getNextQuestion(game)
-      }, NEW_QUESTION_TIMEOUT)
     }, REVEAL_ANSWER_TIMEOUT)
+  }
+
+  $: onGetNextQuestion = () => {
+    game = getNextQuestion(game)
   }
 </script>
 
@@ -49,7 +49,11 @@
       </div>
 
       {#if game.currentQuestion}
-        <Question question={game.currentQuestion} colors={colors} onGiveAnswer={onGiveAnswer} />
+        <Question question={game.currentQuestion}
+                  colors={colors}
+                  onGiveAnswer={onGiveAnswer}
+                  onGetNextQuestion={onGetNextQuestion}
+        />
       {/if}
 
       {#if hasWon(game)}

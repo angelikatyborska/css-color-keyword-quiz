@@ -1,8 +1,13 @@
 <script lang="ts">
+  import { wasAnswerChecked } from "../../app/question";
+  import AnswerButton from "./AnswerButton.svelte"
+
   export let colors;
   export let question;
   export let onGiveAnswer;
-  import AnswerButton from "./AnswerButton.svelte"
+  export let onGetNextQuestion;
+
+  $: canGetNextQuestion = wasAnswerChecked(question)
 </script>
 
 <div class="question">
@@ -28,6 +33,14 @@
       <input type="text" />
     {/if}
   </ul>
+
+  <button type="button"
+          class="next-question-button"
+          disabled={!canGetNextQuestion}
+          on:click={onGetNextQuestion}
+  >
+    Next
+  </button>
 </div>
 
 <style lang="scss">
@@ -66,5 +79,11 @@
 
   input {
     @include button();
+    cursor: text;
+  }
+
+  .next-question-button {
+    @include button();
+    margin-top: $margin-medium;
   }
 </style>

@@ -24,10 +24,13 @@
 
   &:disabled {
     cursor: default;
+    color: $disabled-text-color;
   }
 
-  &:hover, &:active {
-    background-color: lighten($light-gray, 15);
+  &:not(:disabled) {
+    &:hover, &:active {
+      background-color: lighten($light-gray, 15);
+    }
   }
 }
 
@@ -45,6 +48,7 @@ $accent: #e53045;
 
 $background-color: $white;
 $text-color: $black;
+$disabled-text-color: rgba($text-color, 0.5);
 
 $transition-duration: 0.3s;
 

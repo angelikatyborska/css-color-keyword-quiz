@@ -2,7 +2,7 @@
   import 'focus-visible';
   import Header from "./appUI/Header.svelte";
   import Question from "./appUI/game/Question.svelte";
-  import { loadColors } from "./app/data/tranform.ts";
+  import {loadColors} from "./app/data/tranform.ts";
   import rawJSONData from "./app/data/source.json";
   import {newGame, startGame, getNextQuestion, giveAnswerToQuestion, checkAnswerToQuestion, hasWon, hasLost} from "./app/game";
   import {calculateDiffMatrix} from "./app/color";
@@ -10,13 +10,14 @@
   import GameWon from "./appUI/game/GameWon.svelte";
   import GameProgressBar from "./appUI/game/ProgressBar.svelte";
   import DifficultyChooser from "./appUI/DifficultyChooser.svelte";
+  import {defaultSettings} from "./app/settings";
 
   const colors = loadColors(rawJSONData);
   const diffMatrix = calculateDiffMatrix(colors)
 
   const REVEAL_ANSWER_TIMEOUT = 1000;
-  // const NEW_QUESTION_TIMEOUT = 2000;
 
+  let settings = defaultSettings
   let game = null
 
   let onDifficultyChoose = (difficulty) => {
@@ -31,11 +32,19 @@
     game = giveAnswerToQuestion(game, userInput)
     setTimeout(() => {
       game = checkAnswerToQuestion(game)
+
+      if (settings.autoNewQuestion) {
+        setTimeout(() => {
+          game = getNextQuestion(game)
+        }, settings.autoNewQuestionTimeout)
+      }
     }, REVEAL_ANSWER_TIMEOUT)
   }
 
   $: onGetNextQuestion = () => {
-    game = getNextQuestion(game)
+    if (!settings.autoNewQuestion) {
+      game = getNextQuestion(game)
+    }
   }
 </script>
 
@@ -52,6 +61,7 @@
         <Question question={game.currentQuestion}
                   colors={colors}
                   onGiveAnswer={onGiveAnswer}
+                  autoNewQuestion={settings.autoNewQuestion}
                   onGetNextQuestion={onGetNextQuestion}
         />
       {/if}

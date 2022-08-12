@@ -6,6 +6,9 @@
   export let question;
   export let onGiveAnswer;
   export let onGetNextQuestion;
+  export let autoNewQuestion;
+
+  console.log({autoNewQuestion})
 
   $: canGetNextQuestion = wasAnswerChecked(question)
 </script>
@@ -33,14 +36,15 @@
       <input type="text" />
     {/if}
   </ul>
-
-  <button type="button"
-          class="next-question-button"
-          disabled={!canGetNextQuestion}
-          on:click={onGetNextQuestion}
-  >
-    Next
-  </button>
+  {#if !autoNewQuestion}
+    <button type="button"
+            class="next-question-button"
+            disabled={!canGetNextQuestion}
+            on:click={onGetNextQuestion}
+    >
+      Next
+    </button>
+  {/if}
 </div>
 
 <style lang="scss">

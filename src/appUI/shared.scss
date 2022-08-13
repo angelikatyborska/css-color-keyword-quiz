@@ -34,9 +34,68 @@
   }
 }
 
-@mixin button-rainbow-border {
+@mixin link-rainbow-border {
   position: relative;
   overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+  z-index: 3;
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    top: calc(100% - #{$link-border-thickness});
+    left: 0;
+    height: $link-border-thickness;
+    transition: all $transition-duration ease;
+    background-color: $text-color;
+    z-index: -2;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    top: calc(100% - #{$link-rainbow-border-thickness});
+    left: 0;
+    height: $link-rainbow-border-thickness;
+    background-image: linear-gradient(to right, $red 0 17%, $orange 17% 33%, $yellow 33% 50%, $green 50% 66%, $blue 66% 83%, $purple 83% 100%);
+    transition: all $transition-duration ease;
+    background-color: $text-color;
+    background-size: 50%;
+    background-repeat: repeat;
+    opacity: 0;
+    z-index: -1;
+  }
+
+  &:hover, &:active {
+    &:after {
+      opacity: 1;
+      animation: move;
+      animation-duration: $rainbow-animation-duration;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+
+      @media (prefers-reduced-motion) {
+        animation: none;
+      }
+    }
+  }
+
+  @keyframes move {
+    from {
+      left: 0;
+    }
+
+    to {
+      left: -100%;
+    }
+  }
+}
+
+@mixin button-rainbow-border {
+  position: relative;
 
   &:before {
     content: '';
@@ -69,7 +128,7 @@
     &:after {
       opacity: 1;
       animation: rotate;
-      animation-duration: 3s;
+      animation-duration: $rainbow-animation-duration;
       animation-iteration-count: infinite;
       animation-timing-function: linear;
 
@@ -142,3 +201,6 @@ $button-inner-border-width: $margin-tiny;
 $button-inner-border-color: $white;
 $button-text-border-radius: $margin-tiny;
 $button-rainbow-border-thickness: 3px;
+$link-border-thickness: 1px;
+$link-rainbow-border-thickness: 3px;
+$rainbow-animation-duration: 3s;

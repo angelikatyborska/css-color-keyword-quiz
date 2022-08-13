@@ -113,6 +113,7 @@
 
   :global(h1) {
     font-size: $font-medium;
+
     @media(min-width: $tablet-breakpoint) {
       font-size: $font-big;
     }
@@ -135,8 +136,10 @@
   }
 
   :global(a) {
+    @include link-rainbow-border();
     color: inherit;
-    border-radius: $button-text-border-radius;
+    text-decoration: none;
+    position: relative;
 
     &:visited {
       color: inherit;

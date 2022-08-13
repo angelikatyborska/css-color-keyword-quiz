@@ -51,11 +51,8 @@
     settings = setAutoNewQuestion(settings, event.target.checked)
   }
 
-  $: onSetAutoNewQuestionTimeout = (event) => {
-    const value = parseInt(event.target.value, 10)
-    if (Number.isInteger(value)) {
-      settings = setAutoNewQuestionTimeout(settings, event.target.value)
-    }
+  $: onSetAutoNewQuestionTimeout = (value) => {
+    settings = setAutoNewQuestionTimeout(settings, value)
   }
 </script>
 

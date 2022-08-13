@@ -48,7 +48,7 @@
   }
 
   .modal-inner {
-    max-width: 600px;
+    max-width: 540px;
     margin: 0 auto;
   }
 

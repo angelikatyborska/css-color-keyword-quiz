@@ -40,10 +40,10 @@
 
   <h3>Author</h3>
   <p>
-    Created by <a href="https://angelika.me/">Angelika Tyborska</a>. Source code available on <a href="github.com/angelikatyborska/css-color-keyword-quiz">GitHub</a>.
+    Created by <span class="nb"><a href="https://angelika.me/">Angelika Tyborska</a>.</span> Source code available on <span class="nb"><a href="github.com/angelikatyborska/css-color-keyword-quiz">GitHub</a>.</span>
   </p>
   <p>
-    Enjoying the quiz? <a href="https://ko-fi.com/angelikatyborska">Buy me a coffee ☕️</a>.
+    Enjoying the quiz? <span class="nb"><a href="https://ko-fi.com/angelikatyborska">Buy me a coffee ☕️</a>.</span>
   </p>
 </div>
 
@@ -56,5 +56,9 @@
 
   .example-question {
     text-align: center;
+  }
+
+  .nb {
+    display: inline-block;
   }
 </style>

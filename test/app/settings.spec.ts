@@ -1,9 +1,11 @@
-import { defaultSettings, setAutoNewQuestion, setAutoNewQuestionTimeout } from "../../src/app/settings";
+import { loadSettings, setAutoNewQuestion, setAutoNewQuestionTimeout } from "../../src/app/settings";
 
 describe("Settings", () => {
-  describe("defaultSettings", () => {
+  const defaultSettings = loadSettings();
+
+  describe("loadSettings", () => {
     test("auto progressing to the next question is the default", () => {
-      expect(defaultSettings.autoNewQuestion).toBe(true);
+      expect(loadSettings().autoNewQuestion).toBe(true);
     });
   });
 

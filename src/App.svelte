@@ -10,14 +10,14 @@
   import GameWon from "./appUI/game/GameWon.svelte";
   import GameProgressBar from "./appUI/game/ProgressBar.svelte";
   import DifficultyChooser from "./appUI/DifficultyChooser.svelte";
-  import {defaultSettings} from "./app/settings";
+  import {loadSettings, setAutoNewQuestion, setAutoNewQuestionTimeout} from "./app/settings";
 
   const colors = loadColors(rawJSONData);
   const diffMatrix = calculateDiffMatrix(colors)
 
   const REVEAL_ANSWER_TIMEOUT = 1000;
 
-  let settings = defaultSettings
+  let settings = loadSettings()
   let game = null
 
   let onDifficultyChoose = (difficulty) => {
@@ -46,10 +46,26 @@
       game = getNextQuestion(game)
     }
   }
+
+  $: onSetAutoNewQuestion = (event) => {
+    settings = setAutoNewQuestion(settings, event.target.checked)
+  }
+
+  $: onSetAutoNewQuestionTimeout = (event) => {
+    const value = parseInt(event.target.value, 10)
+    if (Number.isInteger(value)) {
+      settings = setAutoNewQuestionTimeout(settings, event.target.value)
+    }
+  }
 </script>
 
 <div class="wrapper">
-  <Header />
+  <Header
+    autoNewQuestion={settings.autoNewQuestion}
+    autoNewQuestionTimeout={settings.autoNewQuestionTimeout}
+    onSetAutoNewQuestion={onSetAutoNewQuestion}
+    onSetAutoNewQuestionTimeout={onSetAutoNewQuestionTimeout}
+  />
 
   <main>
     {#if game}

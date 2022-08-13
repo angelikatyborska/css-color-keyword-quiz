@@ -26,11 +26,16 @@
 
 <div class="game-over">
   <h2>Game Over</h2>
-  <p>Uh-oh, looks like you're out of lives</p>
-  <a href={twitterUrl} target="twitter-share" on:click={onTwitterShare}>
-    Share on Twitter
-  </a>
-  <div>
+  <p>Uh-oh, looks like you're out of lives.</p>
+  <p>
+    You got {correctAnswerCount} / {totalQuestionCount} CSS colors right 🎨 (in {difficultyNames[difficulty]} mode).
+    </p>
+  <p>
+    <a href={twitterUrl} target="twitter-share" on:click={onTwitterShare}>
+      Share on Twitter
+    </a>
+  </p>
+  <div class="try-again">
     <button type="button" on:click={onRestart}>Try again</button>
   </div>
 </div>
@@ -38,10 +43,11 @@
 <style lang="scss">
   @import "src/appUI/shared";
 
- .game-over {
+ .try-again {
+   margin: $margin-big 0 $margin-medium 0;
+
    button {
      @include button();
-     margin-bottom: $margin-medium;
    }
  }
 </style>

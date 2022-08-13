@@ -1,4 +1,9 @@
 <script lang="ts">
+  export let autoNewQuestion;
+  export let autoNewQuestionTimeout;
+  export let onSetAutoNewQuestion;
+  export let onSetAutoNewQuestionTimeout;
+
   import GearIcon from '@fortawesome/fontawesome-free/svgs/solid/gear.svg';
   import ChartIcon from '@fortawesome/fontawesome-free/svgs/solid/chart-simple.svg';
   import QuestionIcon from '@fortawesome/fontawesome-free/svgs/solid/circle-question.svg';
@@ -26,7 +31,12 @@
 <div>
   {#if showSettingsModal}
     <Modal id='settings' title='Settings' onClose={closeSettingsModal}>
-      <Settings />
+      <Settings
+        autoNewQuestion={autoNewQuestion}
+        autoNewQuestionTimeout={autoNewQuestionTimeout}
+        onSetAutoNewQuestion={onSetAutoNewQuestion}
+        onSetAutoNewQuestionTimeout={onSetAutoNewQuestionTimeout}
+      />
     </Modal>
   {/if}
 

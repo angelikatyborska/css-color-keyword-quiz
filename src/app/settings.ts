@@ -1,3 +1,5 @@
+import { loadJSON, saveJSON } from "./storage";
+
 type Settings = {
   autoNewQuestion: boolean,
   autoNewQuestionTimeout: number
@@ -8,13 +10,28 @@ const defaultSettings = {
   autoNewQuestionTimeout: 2000
 };
 
+const storageKey = "settings";
+
+function loadSettings(): Settings {
+  const savedSettings = loadJSON(storageKey);
+  return { ...defaultSettings, ...savedSettings };
+}
+
+function saveSettings(settings: Settings): void {
+  saveJSON(storageKey, settings);
+}
+
 function setAutoNewQuestion(settings: Settings, value: boolean): Settings {
-  return { ...settings, autoNewQuestion: value };
+  const newSettings = { ...settings, autoNewQuestion: value };
+  saveSettings(newSettings);
+  return newSettings;
 }
 
 function setAutoNewQuestionTimeout(settings: Settings, value: number): Settings {
-  return { ...settings, autoNewQuestionTimeout: value };
+  const newSettings = { ...settings, autoNewQuestionTimeout: value };
+  saveSettings(newSettings);
+  return newSettings;
 }
 
 export type { Settings };
-export { defaultSettings, setAutoNewQuestion, setAutoNewQuestionTimeout };
+export { loadSettings, setAutoNewQuestion, setAutoNewQuestionTimeout };

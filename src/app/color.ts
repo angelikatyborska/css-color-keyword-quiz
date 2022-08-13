@@ -1,11 +1,5 @@
 type Hex = string;
 
-type HSL = {
-  h: number, // from 0 to 360
-  s: number, // from 0 to 100
-  l: number // from 0 to 100
-}
-
 type RGB = {
   r: number, // from 0 to 255
   g: number, // from 0 to 255
@@ -25,11 +19,6 @@ type ColorList = Array<Color>;
 type ColorKeyList = Array<ColorKey>;
 type ColorMap = Record<ColorKey, Color>;
 type ColorDiffMatrix = Record<ColorKey, Record<ColorKey, number>>;
-
-const MAX_HUE = 360;
-const MAX_SATURATION = 100;
-const MAX_LIGHTNESS = 100;
-const MAX_RGB_COMPONENT = 255;
 
 const DIFF_VALUE_FOR_SYNONYMS = 50;
 

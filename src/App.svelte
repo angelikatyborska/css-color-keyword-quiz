@@ -86,7 +86,11 @@
       {/if}
 
       {#if hasWon(game)}
-        <GameWon onRestart={onRestart} />
+        <GameWon onRestart={onRestart}
+                 correctAnswerCount={game.correctAnswerCount}
+                 totalQuestionCount={game.totalQuestionCount}
+                 difficulty={game.difficulty}
+        />
       {/if}
 
       {#if hasLost(game)}

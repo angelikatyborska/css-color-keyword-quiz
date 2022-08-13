@@ -43,32 +43,6 @@ function hexToRGB(hex: Hex): RGB {
   return { r, g, b };
 }
 
-// TODO: decide if this is needed
-function hexToHSL(hex: Hex): HSL {
-  let { r, g, b } = hexToRGB(hex);
-  r /= MAX_RGB_COMPONENT;
-  g /= MAX_RGB_COMPONENT;
-  b /= MAX_RGB_COMPONENT;
-  const max = Math.max(r, g, b); const min = Math.min(r, g, b);
-  let h; let s; let l = (max + min) / 2; // eslint-disable-line prefer-const
-  if (max === min) {
-    h = s = 0; // achromatic
-  } else {
-    const d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-    switch (max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      case b: h = (r - g) / d + 4; break;
-    }
-    h /= 6;
-  }
-  h = Math.round(h * MAX_HUE);
-  s = Math.round(s * MAX_SATURATION);
-  l = Math.round(l * MAX_LIGHTNESS);
-  return { h, s, l };
-}
-
 function sanitizeKeyword(keyword): ColorKey {
   return keyword?.toLowerCase().trim();
 }
@@ -146,7 +120,6 @@ function findTopSimilar(colorKeys: ColorKeyList, diffMatrix: ColorDiffMatrix, co
 export type { Color, ColorKey, ColorMap, ColorList, ColorKeyList, ColorDiffMatrix };
 export {
   HEX_REGEX,
-  hexToHSL,
   hexToRGB,
   calculateColorDiff,
   calculateDiffMatrix,

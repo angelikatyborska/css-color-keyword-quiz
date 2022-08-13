@@ -9,7 +9,6 @@
     [QuestionDifficulty.MEDIUM]: 'hard',
     [QuestionDifficulty.HARD]: 'legendary',
   }
-  // TODO: real url
   const thisAppUrl = 'css-color-quiz.angelika.me'
   let twitterUrl = 'https://twitter.com/intent/tweet?text='
   twitterUrl += encodeURIComponent(`I got ${correctAnswerCount} / ${totalQuestionCount} CSS colors right 🎨 (in ${difficultyNames[difficulty]} mode) #CSSColorQuiz ${thisAppUrl}`)

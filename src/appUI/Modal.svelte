@@ -48,7 +48,7 @@
   }
 
   .modal-inner {
-    max-width: 600px; // TODO: figure out
+    max-width: 600px;
     margin: 0 auto;
   }
 

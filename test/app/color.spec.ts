@@ -1,16 +1,7 @@
-import { hexToHSL, hexToRGB, calculateColorDiff, calculateDiffMatrix, findTopSimilar } from "../../src/app/color";
+import { hexToRGB, calculateColorDiff, calculateDiffMatrix, findTopSimilar } from "../../src/app/color";
 import { dataObjectToColor } from "../../src/app/data/tranform";
 
 describe("color", () => {
-  describe("hexToHSL", () => {
-    test("black", () => expect(hexToHSL("#000000")).toEqual({ h: 0, s: 0, l: 0 }));
-    test("white", () => expect(hexToHSL("#ffffff")).toEqual({ h: 0, s: 0, l: 100 }));
-    test("gray", () => expect(hexToHSL("#808080")).toEqual({ h: 0, s: 0, l: 50 }));
-    test("red", () => expect(hexToHSL("#ff0000")).toEqual({ h: 0, s: 100, l: 50 }));
-    test("cyan", () => expect(hexToHSL("#00ffff")).toEqual({ h: 180, s: 100, l: 50 }));
-    test("indigo", () => expect(hexToHSL("#4b0082")).toEqual({ h: 275, s: 100, l: 25 }));
-  });
-
   describe("hexToRGB", () => {
     test("black", () => expect(hexToRGB("#000000")).toEqual({ r: 0, g: 0, b: 0 }));
     test("white", () => expect(hexToRGB("#ffffff")).toEqual({ r: 255, g: 255, b: 255 }));

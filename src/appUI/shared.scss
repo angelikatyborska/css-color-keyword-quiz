@@ -159,7 +159,7 @@
 
 @mixin button() {
   @include button-base();
-  padding: $margin-small $margin-medium;
+  padding: $button-top-padding $button-left-padding;
   background-color: $white;
   border: $button-outer-border-width solid $button-outer-border-color;
 }
@@ -173,7 +173,6 @@ $yellow: #f2d624;
 $green: #66ce4a;
 $blue: #3aa1d8;
 $purple: #7756b5;
-$accent: $red;
 
 $background-color: $white;
 $text-color: $black;
@@ -202,6 +201,8 @@ $icon-size-small: 16px;
 $icon-size-big: 22px;
 
 $question-width: $min-width - $margin-big * 2;
+$button-top-padding: $margin-small;
+$button-left-padding: $margin-medium;
 $button-border-radius: $margin-small;
 $button-outer-border-width: 1px;
 $button-outer-border-color: $light-gray;

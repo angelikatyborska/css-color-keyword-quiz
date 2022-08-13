@@ -120,6 +120,10 @@ function wasAnswerChecked(question: Question): boolean {
     .includes(question.state);
 }
 
+function wasAnswerCorrect(question: Question): boolean {
+  return question.state === QuestionState.ANSWERED_CORRECTLY;
+}
+
 export type { Question };
 export {
   newQuestion,
@@ -130,5 +134,6 @@ export {
   canCheckAnswer,
   checkAnswer,
   wasAnswerChecked,
-  wasAnswerGiven
+  wasAnswerGiven,
+  wasAnswerCorrect
 };

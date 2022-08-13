@@ -1,4 +1,5 @@
 <script lang="ts">
+  export let colors;
   export let autoNewQuestion;
   export let autoNewQuestionTimeout;
   export let onSetAutoNewQuestion;
@@ -42,7 +43,7 @@
 
   {#if showInfoModal}
     <Modal id='info' title='About CSS Color Quiz' onClose={closeInfoModal}>
-      <Info />
+      <Info colors={colors} />
     </Modal>
   {/if}
 

@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { wasAnswerChecked } from "../../app/question";
+  import {onMount} from 'svelte';
+  import {wasAnswerChecked, wasAnswerGiven, wasAnswerCorrect} from "../../app/question";
   import AnswerButton from "./AnswerButton.svelte"
 
   export let colors;
@@ -8,7 +9,23 @@
   export let onGetNextQuestion;
   export let autoNewQuestion;
 
+  let textAnswer = '';
+  let textAnswerInput;
+
+  $: canGiveAnswer = !wasAnswerGiven(question);
   $: canGetNextQuestion = wasAnswerChecked(question)
+  $: onGiveTextAnswer = () => {
+    onGiveAnswer(textAnswer)
+  }
+  $: wasTextAnswerCorrect = wasAnswerChecked(question) && wasAnswerCorrect(question)
+  $: wasTextAnswerIncorrect = wasAnswerChecked(question) && !wasAnswerCorrect(question)
+
+  onMount(function() {
+    if (textAnswerInput) {
+      textAnswerInput.focus()
+    }
+  });
+
 </script>
 
 <div class="question">
@@ -31,7 +48,21 @@
         </li>
       {/each}
     {:else}
-      <input type="text" />
+      <form
+        on:submit|preventDefault={onGiveTextAnswer}
+        class:text-answer-form={true}
+        class:text-answer-form-correct={wasTextAnswerCorrect}
+        class:text-answer-form-incorrect={wasTextAnswerIncorrect}
+      >
+        <input
+          disabled="{!canGiveAnswer}"
+          type="text"
+          name="textAnswer"
+          bind:value={textAnswer}
+          bind:this={textAnswerInput}
+          class:text-answer-input={true}
+        />
+      </form>
     {/if}
   </ul>
   {#if !autoNewQuestion}
@@ -79,9 +110,43 @@
     width: $question-width;
   }
 
-  input {
+  $text-answer-feedback-icon-width: $margin-medium;
+
+  .text-answer-input {
     @include button();
     cursor: text;
+    position: relative;
+    padding-left: 2 * $button-left-padding + $text-answer-feedback-icon-width;
+    padding-right: 2 * $button-left-padding + $text-answer-feedback-icon-width;
+  }
+
+  .text-answer-form {
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: $button-left-padding;
+      transform: translateY(-50%);
+      width: $text-answer-feedback-icon-width;
+      display: block;
+      z-index: 1;
+    }
+  }
+
+  .text-answer-form-correct {
+    &:before {
+      content: '✓';
+      color: $green;
+    }
+  }
+
+  .text-answer-form-incorrect {
+    &:before {
+      content: '✖';
+      color: $red;
+    }
   }
 
   .next-question-button {

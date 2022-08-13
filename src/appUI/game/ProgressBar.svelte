@@ -29,7 +29,7 @@ $: livesLabel = `${game.livesLeft} lives left`
 
   .heart {
     :global(svg *) {
-      fill: $accent;
+      fill: $red;
       transition: all $transition-duration ease;
     }
   }

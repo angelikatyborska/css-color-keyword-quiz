@@ -61,6 +61,7 @@
 
 <div class="wrapper">
   <Header
+    colors={colors}
     autoNewQuestion={settings.autoNewQuestion}
     autoNewQuestionTimeout={settings.autoNewQuestionTimeout}
     onSetAutoNewQuestion={onSetAutoNewQuestion}
@@ -74,12 +75,14 @@
       </div>
 
       {#if game.currentQuestion}
-        <Question question={game.currentQuestion}
-                  colors={colors}
-                  onGiveAnswer={onGiveAnswer}
-                  autoNewQuestion={settings.autoNewQuestion}
-                  onGetNextQuestion={onGetNextQuestion}
-        />
+        {#key game.currentQuestion.colorKey}
+          <Question question={game.currentQuestion}
+                    colors={colors}
+                    onGiveAnswer={onGiveAnswer}
+                    autoNewQuestion={settings.autoNewQuestion}
+                    onGetNextQuestion={onGetNextQuestion}
+          />
+        {/key}
       {/if}
 
       {#if hasWon(game)}
@@ -148,7 +151,7 @@
   }
 
   :global(*):focus {
-    outline: 2px solid $accent;
+    outline: 2px solid $purple;
   }
 
   :global(a) {

@@ -13,7 +13,7 @@
   import { wasAnswerChecked, wasAnswerGiven } from "../../app/question"
   $: canGiveAnswer = !wasAnswerGiven(question);
   $: wasSelected = wasAnswerGiven(question) && question.answer === suggestedAnswer
-  $: wasSelectedCorrectly = wasAnswerChecked(question) && question.colorKey === suggestedAnswer
+  $: wasSelectedCorrectly = wasAnswerChecked(question) && question.answer == suggestedAnswer && question.colorKey === suggestedAnswer
   $: wasSelectedIncorrectly = wasAnswerChecked(question) && question.answer === suggestedAnswer && question.colorKey !== suggestedAnswer
   $: isCorrectAnswer = wasAnswerChecked(question) && question.colorKey === suggestedAnswer
 </script>
@@ -118,8 +118,8 @@
     transition: all $transition-duration ease;
     border-radius: $button-text-border-radius;
 
-    *:not(:disabled):hover &,
-    *:not(:disabled):active & {
+    button:not(:disabled):hover &,
+    button:not(:disabled):active & {
       background-color: $button-background-color-hover;
     }
   }

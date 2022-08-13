@@ -5,19 +5,31 @@
   import IconButton from './IconButton.svelte';
   import Modal from './Modal.svelte';
   import Info from './Info.svelte';
+  import Settings from './Settings.svelte';
 
   let infoButton;
+  let settingsButton;
   let showInfoModal = false;
+  let showSettingsModal = false;
   let openInfoModal = () => showInfoModal = true;
   let closeInfoModal = () => {
     showInfoModal = false;
-    console.log({ infoButton })
-    console.log(infoButton.focus)
     infoButton.focus();
+  };
+  let openSettingsModal = () => showSettingsModal = true;
+  let closeSettingsModal = () => {
+    showSettingsModal = false;
+    settingsButton.focus();
   };
 </script>
 
 <div>
+  {#if showSettingsModal}
+    <Modal id='settings' title='Settings' onClose={closeSettingsModal}>
+      <Settings />
+    </Modal>
+  {/if}
+
   {#if showInfoModal}
     <Modal id='info' title='About CSS Color Quiz' onClose={closeInfoModal}>
       <Info />
@@ -30,7 +42,7 @@
     <nav>
       <IconButton bind:button={infoButton} on:click={openInfoModal} icon={QuestionIcon} label="About this page" />
       <IconButton on:click={() => {}} icon={ChartIcon} label="Statistics"/>
-      <IconButton on:click={() => {}} icon={GearIcon} label="Options"/>
+      <IconButton bind:button={settingsButton} on:click={openSettingsModal} icon={GearIcon} label="Settings"/>
     </nav>
   </header>
 </div>

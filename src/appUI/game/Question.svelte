@@ -8,8 +8,6 @@
   export let onGetNextQuestion;
   export let autoNewQuestion;
 
-  console.log({autoNewQuestion})
-
   $: canGetNextQuestion = wasAnswerChecked(question)
 </script>
 

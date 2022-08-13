@@ -17,7 +17,7 @@
 </script>
 
 <div class="info">
-  <p>CSS Color Quiz is a simple quiz game about guessing color names based on the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color_keywords">CSS color keywords</a>.</p>
+  <p>CSS Color Quiz is a quiz game about guessing color names based on the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color_keywords">CSS color keywords</a>.</p>
   <h3>How to play</h3>
   <p>The objective of the game is to guess the CSS color keyword of the currently shown color. For example, the correct answer to the question below is "{exampleQuestion.colorKey}".</p>
 

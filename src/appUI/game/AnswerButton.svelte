@@ -80,20 +80,6 @@
     &:not(.answer-button-last) {
       margin-bottom: $margin-small;
     }
-
-    &:before {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 100%;
-    }
-
-    &:after {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 100%;
-    }
   }
 
   .answer-button-inner {
@@ -131,6 +117,11 @@
     padding: $margin-micro $margin-tiny;
     transition: all $transition-duration ease;
     border-radius: $button-text-border-radius;
+
+    *:not(:disabled):hover &,
+    *:not(:disabled):active & {
+      background-color: $button-background-color-hover;
+    }
   }
 
   .answer-button-correct-answer {

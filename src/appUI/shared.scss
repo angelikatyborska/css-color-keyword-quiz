@@ -29,7 +29,7 @@
 
   &:not(:disabled) {
     &:hover, &:active {
-      background-color: lighten($light-gray, 15);
+      background-color: $button-background-color-hover;
     }
   }
 }
@@ -69,16 +69,20 @@
     z-index: -1;
   }
 
-  &:hover, &:active {
-    &:after {
-      opacity: 1;
-      animation: move;
-      animation-duration: $rainbow-animation-duration;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
+  &:not(:disabled) {
+    &:hover, &:active, &:focus {
+      outline: 0;
 
-      @media (prefers-reduced-motion) {
-        animation: none;
+      &:after {
+        opacity: 1;
+        animation: move;
+        animation-duration: $rainbow-animation-duration;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+
+        @media (prefers-reduced-motion) {
+          animation: none;
+        }
       }
     }
   }
@@ -124,16 +128,20 @@
     background: conic-gradient(from 31deg, $red 0deg 60deg, $orange 60deg 120deg, $yellow 120deg 180deg, $green 180deg 240deg, $blue 240deg 300deg, $purple 300deg 360deg);
   }
 
-  &:hover, &:active {
-    &:after {
-      opacity: 1;
-      animation: rotate;
-      animation-duration: $rainbow-animation-duration;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
+  &:not(:disabled) {
+    &:hover, &:active, &:focus {
+      outline: 0;
 
-      @media (prefers-reduced-motion) {
-        animation: none;
+      &:after {
+        opacity: 1;
+        animation: rotate;
+        animation-duration: $rainbow-animation-duration;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+
+        @media (prefers-reduced-motion) {
+          animation: none;
+        }
       }
     }
   }
@@ -199,6 +207,7 @@ $button-outer-border-width: 1px;
 $button-outer-border-color: $light-gray;
 $button-inner-border-width: $margin-tiny;
 $button-inner-border-color: $white;
+$button-background-color-hover: lighten($light-gray, 15);
 $button-text-border-radius: $margin-tiny;
 $button-rainbow-border-thickness: 3px;
 $link-border-thickness: 1px;

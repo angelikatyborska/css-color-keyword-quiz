@@ -6,7 +6,7 @@
   export let onSetAutoNewQuestionTimeout;
 
   import GearIcon from '@fortawesome/fontawesome-free/svgs/solid/gear.svg';
-  import ChartIcon from '@fortawesome/fontawesome-free/svgs/solid/chart-simple.svg';
+  // import ChartIcon from '@fortawesome/fontawesome-free/svgs/solid/chart-simple.svg';
   import QuestionIcon from '@fortawesome/fontawesome-free/svgs/solid/circle-question.svg';
   import IconButton from './IconButton.svelte';
   import Modal from './Modal.svelte';
@@ -52,7 +52,7 @@
     <h1>CSS Color Quiz</h1>
     <nav>
       <IconButton bind:button={infoButton} on:click={openInfoModal} icon={QuestionIcon} label="About this page" />
-      <IconButton on:click={() => {}} icon={ChartIcon} label="Statistics"/>
+      <!-- <IconButton on:click={() => {}} icon={ChartIcon} label="Statistics"/> -->
       <IconButton bind:button={settingsButton} on:click={openSettingsModal} icon={GearIcon} label="Settings"/>
     </nav>
   </header>

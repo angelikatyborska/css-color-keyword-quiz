@@ -1,13 +1,8 @@
 <script lang="ts">
-  import { QuestionDifficulty } from '../../app/question'
+  import { QuestionDifficulty, difficultyNames } from '../../app/question'
   export let correctAnswerCount;
   export let totalQuestionCount;
   export let difficulty;
-  const difficultyNames = {
-    [QuestionDifficulty.EASY]: 'easy',
-    [QuestionDifficulty.MEDIUM]: 'hard',
-    [QuestionDifficulty.HARD]: 'legendary',
-  }
   const thisAppUrl = 'css-color-quiz.angelika.me'
   let twitterUrl = 'https://twitter.com/intent/tweet?text='
   twitterUrl += encodeURIComponent(`I got ${correctAnswerCount} / ${totalQuestionCount} CSS colors right 🎨 (in ${difficultyNames[difficulty]} mode) #CSSColorQuiz ${thisAppUrl}`)

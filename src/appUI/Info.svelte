@@ -1,6 +1,6 @@
 <script lang="ts">
   import Question from "./game/Question.svelte";
-  import { QuestionDifficulty, QuestionState } from '../app/question'
+  import { QuestionDifficulty, QuestionState, difficultyNames } from '../app/question'
 
   const exampleColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
   const exampleColor = exampleColors[Math.floor(Math.random() * exampleColors.length)]
@@ -31,9 +31,9 @@
   </div>
   <p>There are three different difficulty levels:</p>
   <ul>
-    <li><strong>Easy</strong> - the suggested answers are chosen randomly from all colors after removing the ones most resembling the color in question.</li>
-    <li><strong>Hard</strong> - the suggested answers are chosen from the colors most resembling the color in question.</li>
-    <li><strong>Legendary</strong> - there are no suggested answers.</li>
+    <li><strong class="name">{difficultyNames[QuestionDifficulty.EASY]}</strong> - the suggested answers are chosen randomly from all colors after removing the ones most resembling the color in question.</li>
+    <li><strong class="name">{difficultyNames[QuestionDifficulty.MEDIUM]}</strong> - the suggested answers are chosen from the colors most resembling the color in question.</li>
+    <li><strong class="name">{difficultyNames[QuestionDifficulty.HARD]}</strong> - there are no suggested answers.</li>
   </ul>
 
   <p>When a color has more than one keyword (e.g. aqua vs cyan, gray vs grey), all options are always accepted as the right answer.</p>
@@ -60,5 +60,9 @@
 
   .nb {
     display: inline-block;
+  }
+
+  .name {
+    text-transform: capitalize;
   }
 </style>

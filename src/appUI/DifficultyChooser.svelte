@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { QuestionDifficulty } from '../app/question';
+  import { QuestionDifficulty, difficultyNames } from '../app/question';
   export let onChoose;
 </script>
 
@@ -9,15 +9,15 @@
   </h2>
 
   <button type="button" on:click={() => onChoose(QuestionDifficulty.EASY)}>
-    Easy
+    {difficultyNames[QuestionDifficulty.EASY]}
   </button>
 
   <button type="button" on:click={() => onChoose(QuestionDifficulty.MEDIUM)}>
-    Hard
+    {difficultyNames[QuestionDifficulty.MEDIUM]}
   </button>
 
   <button type="button" on:click={() => onChoose(QuestionDifficulty.HARD)}>
-    Legendary
+    {difficultyNames[QuestionDifficulty.HARD]}
   </button>
 </div>
 
@@ -28,6 +28,7 @@
    button {
      @include button();
      margin-bottom: $margin-medium;
+     text-transform: capitalize;
    }
  }
 </style>

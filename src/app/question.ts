@@ -20,6 +20,12 @@ enum QuestionDifficulty {
   HARD = "HARD"
 }
 
+const difficultyNames = {
+  [QuestionDifficulty.EASY]: 'easy',
+  [QuestionDifficulty.MEDIUM]: 'hard',
+  [QuestionDifficulty.HARD]: 'legendary',
+}
+
 const EASY_REMOVE_N_MOST_SIMILAR_ANSWERS = 20;
 const MEDIUM_TAKE_N_MOST_SIMILAR_ANSWERS = 10;
 
@@ -135,5 +141,6 @@ export {
   checkAnswer,
   wasAnswerChecked,
   wasAnswerGiven,
-  wasAnswerCorrect
+  wasAnswerCorrect,
+  difficultyNames
 };

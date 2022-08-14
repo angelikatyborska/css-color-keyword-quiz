@@ -8,7 +8,7 @@
     "lint": "npm run check-types && npm run eslint -- --fix",
     "eslint": "eslint . --ext .js --ext .ts",
     "check-types": "tsc --noEmit",
-    "build": "rollup -c",
+    "build": "rm -r build && rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json"
@@ -26,15 +26,18 @@
     "@typescript-eslint/eslint-plugin": "^5.16.0",
     "eslint": "^8.11.0",
     "eslint-plugin-svelte3": "^3.4.1",
+    "focus-visible": "^5.2.0",
     "jest": "^27.5.1",
     "jsdom": "^19.0.0",
     "rollup": "^2.3.4",
+    "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-svelte": "^7.0.0",
     "rollup-plugin-svelte-svg": "^1.0.0-beta.6",
     "rollup-plugin-terser": "^7.0.0",
     "sass": "^1.49.9",
+    "sirv-cli": "^2.0.0",
     "svelte": "^3.0.0",
     "svelte-check": "^2.0.0",
     "svelte-jester": "^2.3.2",
@@ -44,7 +47,5 @@
     "typescript": "^4.0.0"
   },
   "dependencies": {
-    "focus-visible": "^5.2.0",
-    "sirv-cli": "^2.0.0"
   }
 }

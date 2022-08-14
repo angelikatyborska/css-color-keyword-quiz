@@ -8,8 +8,42 @@ import typescript from "@rollup/plugin-typescript";
 import css from "rollup-plugin-css-only";
 import json from "@rollup/plugin-json";
 import { svelteSVG } from "rollup-plugin-svelte-svg";
+import copy from "rollup-plugin-copy";
 
 const production = !process.env.ROLLUP_WATCH;
+
+function generateHtmlPlugin() {
+  return {
+    name: "generate-html",
+    generateBundle(output, bundle) {
+      const jsFile = Object.keys(bundle).find(x => x.endsWith(".js"));
+      const cssFile = Object.keys(bundle).find(x => x.endsWith(".css"));
+      this.emitFile({
+        type: "asset",
+        fileName: "index.html",
+        source: `
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset='utf-8'>
+            <meta name='viewport' content='width=device-width,initial-scale=1'>
+          
+            <title>CSS Color Quiz</title>
+          
+            <link rel='icon' type='image/png' href='/favicon.png'>
+            <link rel='stylesheet' href='/global.css'>
+            <link rel='stylesheet' href='/${cssFile}'>
+          
+            <script defer src='/${jsFile}'></script>
+          </head>
+          
+          <body>
+          </body>
+          </html>`
+      });
+    }
+  };
+}
 
 function serve() {
   let server;
@@ -32,13 +66,30 @@ function serve() {
   };
 }
 
+function hashFixCSS(options) {
+  const plugin = css(options);
+  const originalGenerateBundle = plugin.generateBundle;
+  const name = options.output;
+  let source;
+  options.output = s => (source = s);
+  plugin.generateBundle = function(opts, bundle) {
+    originalGenerateBundle.call(this, opts, bundle);
+    this.emitFile({ type: "asset", name, source });
+  };
+  return plugin;
+}
+
 export default {
-  input: "src/main.ts",
+  input: {
+    bundle: "src/main.ts",
+  },
   output: {
     sourcemap: true,
     format: "iife",
     name: "app",
-    file: "public/build/bundle.js",
+    dir: "build/",
+    entryFileNames: "[name]-[hash].js",
+    assetFileNames: "[name]-[hash][extname]",
   },
   plugins: [
     svelteSVG({
@@ -53,7 +104,7 @@ export default {
     }),
     // we'll extract any component CSS out into
     // a separate file - better for performance
-    css({ output: "bundle.css" }),
+    hashFixCSS({ output: "bundle.css" }),
 
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
@@ -70,7 +121,12 @@ export default {
       inlineSources: !production,
     }),
     json(),
-
+    copy({
+      targets: [
+        { src: "public/**/*", dest: "build/" },
+      ]
+    }),
+    generateHtmlPlugin(),
     // In dev mode, call `npm run start` once
     // the bundle has been generated
     !production && serve(),

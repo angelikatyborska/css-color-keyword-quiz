@@ -239,7 +239,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   extends: ['eslint:recommended'],
   plugins: ['svelte3'],
-  ignorePatterns: ['*.cjs'],
+  ignorePatterns: ['*.cjs', 'build/**/*'],
   overrides: [
     {
       files: ['*.svelte', '*.ts'],

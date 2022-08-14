@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { fly } from 'svelte/transition';
+  import { wasAnswerChecked, wasAnswerGiven } from "../../app/question"
   import RightIcon from '@fortawesome/fontawesome-free/svgs/solid/arrow-right.svg';
   import LeftIcon from '@fortawesome/fontawesome-free/svgs/solid/arrow-left.svg';
 
@@ -8,9 +10,17 @@
   export let suggestedAnswer;
   export let isLast;
 
-  import { fly } from 'svelte/transition';
+  const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  import { wasAnswerChecked, wasAnswerGiven } from "../../app/question"
+  let flyAnimationDuration;
+  const setFlyAnimationDuration = () => flyAnimationDuration = mediaQuery.matches ? 0 : 300
+
+  setFlyAnimationDuration()
+
+  mediaQuery.addEventListener('change', () => {
+    setFlyAnimationDuration()
+  });
+
   $: canGiveAnswer = !wasAnswerGiven(question);
   $: wasSelected = wasAnswerGiven(question) && question.answer === suggestedAnswer
   $: wasSelectedCorrectly = wasAnswerChecked(question) && question.answer == suggestedAnswer && question.colorKey === suggestedAnswer
@@ -38,13 +48,13 @@
   </span>
 
   {#if wasSelected}
-    <span in:fly={{ x: -20, duration: 300 }} class="selected-answer-icon">
+    <span in:fly={{ x: -20, duration: flyAnimationDuration }} class="selected-answer-icon">
       <RightIcon width="20px" aria-label="Selected answer" title="Selected answer"/>
     </span>
   {/if}
 
   {#if isCorrectAnswer}
-    <span in:fly={{ x: 20, duration: 300 }} class="correct-answer-icon">
+    <span in:fly={{ x: 20, duration: flyAnimationDuration }} class="correct-answer-icon">
       <LeftIcon width="20px" aria-label="Correct answer" title="Correct answer"/>
     </span>
   {/if}

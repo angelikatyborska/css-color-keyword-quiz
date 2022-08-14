@@ -22,24 +22,24 @@ function generateHtmlPlugin() {
         type: "asset",
         fileName: "index.html",
         source: `
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset='utf-8'>
-            <meta name='viewport' content='width=device-width,initial-scale=1'>
-          
-            <title>CSS Color Quiz</title>
-          
-            <link rel='icon' type='image/png' href='/favicon.png'>
-            <link rel='stylesheet' href='/global.css'>
-            <link rel='stylesheet' href='/${cssFile}'>
-          
-            <script defer src='/${jsFile}'></script>
-          </head>
-          
-          <body>
-          </body>
-          </html>`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+
+  <title>CSS Color Quiz</title>
+
+  <link rel='icon' type='image/png' href='/favicon.png'>
+  <link rel='stylesheet' href='/global.css'>
+  <link rel='stylesheet' href='/${cssFile}'>
+
+  <script defer src='/${jsFile}'></script>
+</head>
+
+<body>
+</body>
+</html>`
       });
     }
   };
@@ -133,7 +133,7 @@ export default {
 
     // Watch the `public` directory and refresh the
     // browser on changes when not in production
-    !production && livereload("public"),
+    !production && livereload("build"),
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify

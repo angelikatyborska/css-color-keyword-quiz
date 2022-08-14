@@ -8,9 +8,9 @@
     "lint": "npm run check-types && npm run eslint -- --fix",
     "eslint": "eslint . --ext .js --ext .ts",
     "check-types": "tsc --noEmit",
-    "build": "rm -r build && rollup -c",
+    "build": "rm -r build/* && rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public --no-clear",
+    "start": "sirv build --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {

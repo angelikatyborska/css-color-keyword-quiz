@@ -15,7 +15,7 @@
   const colors = loadColors(rawJSONData);
   const diffMatrix = calculateDiffMatrix(colors)
 
-  const REVEAL_ANSWER_TIMEOUT = 1000;
+  const REVEAL_ANSWER_TIMEOUT = 300;
 
   let settings = loadSettings()
   let game = null

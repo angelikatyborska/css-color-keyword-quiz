@@ -12,15 +12,16 @@
   import GameWon from "./appUI/game/GameWon.svelte";
   import GameProgressBar from "./appUI/game/ProgressBar.svelte";
   import DifficultyChooser from "./appUI/DifficultyChooser.svelte";
-  import {synchronizeSettingsWithBodyClass} from "./appUI/settings";
+  import {synchronizeSettingsWithBodyClass} from "./appUI/settings.ts";
 
   const colors = loadColors(rawJSONData);
   const diffMatrix = calculateDiffMatrix(colors)
 
   const REVEAL_ANSWER_TIMEOUT = 300;
 
-  let settings = loadSettings()
-  let game = null
+  let settings = loadSettings();
+  let game = null;
+  let autoNewQuestionTimeoutRef = null;
 
   synchronizeSettingsWithBodyClass(settings)
 
@@ -34,21 +35,21 @@
 
   $: onGiveAnswer = (userInput) => {
     game = giveAnswerToQuestion(game, userInput)
+
     setTimeout(() => {
       game = checkAnswerToQuestion(game)
 
       if (settings.autoNewQuestion) {
-        setTimeout(() => {
+        autoNewQuestionTimeoutRef = setTimeout(() => {
           game = getNextQuestion(game)
+          autoNewQuestionTimeoutRef = null
         }, settings.autoNewQuestionTimeout)
       }
     }, REVEAL_ANSWER_TIMEOUT)
   }
 
   $: onGetNextQuestion = () => {
-    if (!settings.autoNewQuestion) {
-      game = getNextQuestion(game)
-    }
+    game = getNextQuestion(game)
   }
 
   $: onSetColorScheme = (value) => {
@@ -91,6 +92,7 @@
                     onGiveAnswer={onGiveAnswer}
                     autoNewQuestion={settings.autoNewQuestion}
                     onGetNextQuestion={onGetNextQuestion}
+                    autoNewQuestionTimeoutRef={autoNewQuestionTimeoutRef}
           />
         {/key}
       {/if}

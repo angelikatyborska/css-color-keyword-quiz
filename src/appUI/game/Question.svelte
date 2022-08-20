@@ -8,6 +8,7 @@
   export let onGiveAnswer;
   export let onGetNextQuestion;
   export let autoNewQuestion;
+  export let autoNewQuestionTimeoutRef;
 
   let textAnswer = '';
   let textAnswerInput;
@@ -19,6 +20,7 @@
   }
   $: wasTextAnswerCorrect = wasAnswerChecked(question) && wasAnswerCorrect(question)
   $: wasTextAnswerIncorrect = wasAnswerChecked(question) && !wasAnswerCorrect(question)
+  $: autoNewQuestionTimeoutDidNotStart = wasAnswerChecked(question) && !autoNewQuestionTimeoutRef
 
   onMount(function() {
     if (textAnswerInput) {
@@ -65,7 +67,7 @@
       </form>
     {/if}
   </ul>
-  {#if !autoNewQuestion}
+  {#if (!autoNewQuestion || (autoNewQuestion && autoNewQuestionTimeoutDidNotStart))}
     <button type="button"
             class="next-question-button"
             disabled={!canGetNextQuestion}

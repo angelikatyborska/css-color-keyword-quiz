@@ -1,3 +1,6 @@
+// https://github.com/sveltejs/eslint-plugin-svelte3/issues/149
+// doesn't work inside svelte script blocks for now :(
+
 const OFF = 0
 const ERROR = 2
 

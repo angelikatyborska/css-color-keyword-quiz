@@ -1,16 +1,18 @@
 <script lang="ts">
   import 'focus-visible';
-  import Header from "./appUI/Header.svelte";
-  import Question from "./appUI/game/Question.svelte";
   import {loadColors} from "./app/data/tranform.ts";
   import rawJSONData from "./app/data/source.json";
   import {newGame, startGame, getNextQuestion, giveAnswerToQuestion, checkAnswerToQuestion, hasWon, hasLost} from "./app/game";
+  import {loadSettings, setColorScheme, setAutoNewQuestion, setAutoNewQuestionTimeout} from "./app/settings";
   import {calculateDiffMatrix} from "./app/color";
+
+  import Header from "./appUI/Header.svelte";
+  import Question from "./appUI/game/Question.svelte";
   import GameOver from "./appUI/game/GameOver.svelte";
   import GameWon from "./appUI/game/GameWon.svelte";
   import GameProgressBar from "./appUI/game/ProgressBar.svelte";
   import DifficultyChooser from "./appUI/DifficultyChooser.svelte";
-  import {loadSettings, setAutoNewQuestion, setAutoNewQuestionTimeout} from "./app/settings";
+  import {synchronizeSettingsWithBodyClass} from "./appUI/settings";
 
   const colors = loadColors(rawJSONData);
   const diffMatrix = calculateDiffMatrix(colors)
@@ -19,6 +21,8 @@
 
   let settings = loadSettings()
   let game = null
+
+  synchronizeSettingsWithBodyClass(settings)
 
   let onDifficultyChoose = (difficulty) => {
     game = newGame(colors, diffMatrix, difficulty)
@@ -47,20 +51,29 @@
     }
   }
 
-  $: onSetAutoNewQuestion = (event) => {
-    settings = setAutoNewQuestion(settings, event.target.checked)
+  $: onSetColorScheme = (value) => {
+    settings = setColorScheme(settings, value)
+    synchronizeSettingsWithBodyClass(settings)
+  }
+
+  $: onSetAutoNewQuestion = (value) => {
+    settings = setAutoNewQuestion(settings, value)
+    synchronizeSettingsWithBodyClass(settings)
   }
 
   $: onSetAutoNewQuestionTimeout = (value) => {
     settings = setAutoNewQuestionTimeout(settings, value)
+    synchronizeSettingsWithBodyClass(settings)
   }
 </script>
 
 <div class="wrapper">
   <Header
     colors={colors}
+    colorScheme={settings.colorScheme}
     autoNewQuestion={settings.autoNewQuestion}
     autoNewQuestionTimeout={settings.autoNewQuestionTimeout}
+    onSetColorScheme={onSetColorScheme}
     onSetAutoNewQuestion={onSetAutoNewQuestion}
     onSetAutoNewQuestionTimeout={onSetAutoNewQuestionTimeout}
   />
@@ -111,14 +124,15 @@
 
 <style lang="scss">
   @import "./appUI/shared";
+  @import "./appUI/color-scheme";
 
   :global(html), :global(body) {
     position: relative;
     width: 100%;
     height: 100%;
     font-size: 18px;
-    background-color: $background-color;
-    color: $text-color;
+    background-color: var(--background-color);
+    color: var(--text-color);
   }
 
   :global(body) {

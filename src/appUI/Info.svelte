@@ -38,6 +38,8 @@
 
   <p>When a color has more than one keyword (e.g. aqua vs cyan, gray vs grey), all options are always accepted as the right answer.</p>
 
+  <p>To give a neutral reference point, the background color of this website is white (#ffffff) in light mode and black (#000000) in dark mode.</p>
+
   <h3>Author</h3>
   <p>
     Created by <span class="nb"><a href="https://angelika.me/">Angelika Tyborska</a>.</span> Source code available on <span class="nb"><a href="github.com/angelikatyborska/css-color-keyword-quiz">GitHub</a>.</span>

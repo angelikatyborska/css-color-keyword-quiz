@@ -41,7 +41,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: $background-color;
+    background-color: var(--background-color);
     z-index: 10;
     padding: 0 $body-padding;
     overflow: auto;

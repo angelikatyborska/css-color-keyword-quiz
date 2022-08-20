@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { QuestionDifficulty, difficultyNames } from '../../app/question'
+  import { difficultyNames } from '../../app/question'
   export let correctAnswerCount;
   export let totalQuestionCount;
   export let difficulty;

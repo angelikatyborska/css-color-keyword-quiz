@@ -36,7 +36,7 @@ $: livesLabel = `${game.livesLeft} lives left`
 
   .heart-lost {
     :global(svg *) {
-      opacity: 0.3;
+      opacity: 0.4;
     }
   }
 </style>

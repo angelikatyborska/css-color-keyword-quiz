@@ -1,11 +1,22 @@
 <script lang="ts">
+  import { colorSchemes } from '../app/settings';
+  export let colorScheme;
   export let autoNewQuestion;
   export let autoNewQuestionTimeout;
+  export let onSetColorScheme;
   export let onSetAutoNewQuestion;
   export let onSetAutoNewQuestionTimeout;
 
   const availableAutoNewQuestionTimeoutOptions = [1, 2, 3, 5]
   const integerAutoNewQuestionTimeout = Math.round(autoNewQuestionTimeout / 1000);
+
+  $: onChangeColorScheme = (event) => {
+    onSetColorScheme(event.target.value)
+  }
+
+  $: onChangeAutoNewQuestion = (event) => {
+    onSetAutoNewQuestion(event.target.checked)
+  }
 
   $: onChangeAutoNewQuestionTimeout = (event) => {
     const value = parseInt(event.target.value, 10)
@@ -18,6 +29,22 @@
 <div class="settings">
   <div class="settings-group">
     <div class="row">
+      <label for="color-scheme">
+        Color scheme
+      </label>
+      <select
+        id="color-scheme"
+        name="color-scheme"
+        on:change={onChangeColorScheme}
+      >
+        {#each colorSchemes as option (option)}
+          <option selected={option === colorScheme} value={option}>{option.toLowerCase()}</option>
+        {/each}
+      </select>
+    </div>
+  </div>
+  <div class="settings-group">
+    <div class="row">
       <label for="auto-new-question">
         Auto-progress to the next question
       </label>
@@ -26,7 +53,7 @@
         id="auto-new-question"
         name="auto-new-question"
         checked={autoNewQuestion}
-        on:change={onSetAutoNewQuestion}
+        on:change={onChangeAutoNewQuestion}
       >
     </div>
     {#if autoNewQuestion}

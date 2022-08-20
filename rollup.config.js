@@ -88,8 +88,8 @@ export default {
     format: "iife",
     name: "app",
     dir: "build/",
-    entryFileNames: "[name]-[hash].js",
-    assetFileNames: "[name]-[hash][extname]",
+    entryFileNames: production ? "[name]-[hash].js" : "[name].js",
+    assetFileNames: production ? "[name]-[hash][extname]" : "[name][extname]",
   },
   plugins: [
     svelteSVG({

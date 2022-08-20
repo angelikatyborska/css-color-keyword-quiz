@@ -1,0 +1,31 @@
+@mixin light-scheme {
+  --background-color: #{$white};
+  --background-color2: #{lighten($light-gray, 10)};
+  --background-color3: #{$light-gray};
+  --background-color4: #{darken($light-gray, 10)};
+  --text-color: #{darken($dark-gray, 10)};
+  --text-color-disabled: #{rgba(darken($dark-gray, 10), 0.5)};
+}
+
+@mixin dark-scheme {
+  --background-color: #{$black};
+  --background-color2: #{darken($dark-gray, 10)};
+  --background-color3: #{$dark-gray};
+  --background-color4: #{lighten($dark-gray, 10)};
+  --text-color: #{lighten($light-gray, 10)};
+  --text-color-disabled: #{rgba(lighten($light-gray, 10), 0.5)};
+}
+
+:root {
+  @include light-scheme();
+}
+
+:global(body.color-scheme-dark) {
+  @include dark-scheme();
+}
+
+:global(body.color-scheme-auto) {
+  @media (prefers-color-scheme: dark) {
+    @include dark-scheme();
+  }
+}

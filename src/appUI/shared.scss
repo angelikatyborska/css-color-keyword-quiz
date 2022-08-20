@@ -1,3 +1,5 @@
+// Only SCSS that doesn't output CSS goes here
+
 @mixin button-reset {
   background: none;
   border: 0;
@@ -24,7 +26,7 @@
 
   &:disabled {
     cursor: default;
-    color: $disabled-text-color;
+    color: var(--text-color-disabled);
   }
 
   &:not(:disabled) {
@@ -49,7 +51,7 @@
     left: 0;
     height: $link-border-thickness;
     transition: all $transition-duration ease;
-    background-color: $text-color;
+    background-color: var(--text-color);
     z-index: -2;
   }
 
@@ -62,7 +64,7 @@
     height: $link-rainbow-border-thickness;
     background-image: linear-gradient(to right, $red 0 17%, $orange 17% 33%, $yellow 33% 50%, $green 50% 66%, $blue 66% 83%, $purple 83% 100%);
     transition: all $transition-duration ease;
-    background-color: $text-color;
+    background-color: var(--text-color);
     background-size: 50%;
     background-repeat: repeat;
     opacity: 0;
@@ -109,7 +111,7 @@
     bottom: $button-rainbow-border-thickness;
     left: $button-rainbow-border-thickness;
     border-radius: inherit;
-    background: $white;
+    background: var(--background-color);
     z-index: 2;
   }
 
@@ -160,11 +162,12 @@
 @mixin button() {
   @include button-base();
   padding: $button-top-padding $button-left-padding;
-  background-color: $white;
+  background-color: var(--background-color);
   border: $button-outer-border-width solid $button-outer-border-color;
 }
 
 $light-gray: #cccccc;
+$dark-gray: #555555;
 $black: #000000;
 $white: #ffffff;
 $red: #e53045;
@@ -173,10 +176,6 @@ $yellow: #f2d624;
 $green: #66ce4a;
 $blue: #3aa1d8;
 $purple: #7756b5;
-
-$background-color: $white;
-$text-color: $black;
-$disabled-text-color: rgba($text-color, 0.5);
 
 $transition-duration: 0.3s;
 
@@ -205,10 +204,10 @@ $button-top-padding: $margin-small;
 $button-left-padding: $margin-medium;
 $button-border-radius: $margin-small;
 $button-outer-border-width: 1px;
-$button-outer-border-color: $light-gray;
+$button-outer-border-color: var(--background-color3);
 $button-inner-border-width: $margin-tiny;
-$button-inner-border-color: $white;
-$button-background-color-hover: lighten($light-gray, 15);
+$button-inner-border-color: var(--background-color);
+$button-background-color-hover: var(--background-color2);
 $button-text-border-radius: $margin-tiny;
 $button-rainbow-border-thickness: 3px;
 $link-border-thickness: 1px;

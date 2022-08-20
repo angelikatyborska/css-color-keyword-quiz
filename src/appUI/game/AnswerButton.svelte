@@ -76,13 +76,13 @@
     &:disabled {
       .answer-button-selected {
         .answer-button-text {
-          color: $text-color;
+          color: var(--text-color);
         }
       }
 
       .answer-button-selected-incorrectly {
         .answer-button-text {
-          color: $disabled-text-color;
+          color: var(--text-color-disabled);
         }
       }
     }
@@ -99,7 +99,7 @@
     padding: $margin-small;
     border-radius: $button-border-radius;
     transition: all $transition-duration ease;
-    background-color: rgba($light-gray, 0);
+    background-color: rgba(var(--background-color3), 0);
 
     &:before {
       // checkered pattern
@@ -113,8 +113,8 @@
       border-radius: $button-border-radius;
 
       $pattern-size: $margin-small;
-      background: $light-gray;
-      background-image: repeating-linear-gradient(45deg, $light-gray 25%, transparent 25%, transparent 75%, $light-gray 75%, $light-gray), repeating-linear-gradient(45deg, $light-gray 25%, darken($light-gray, 10) 25%, darken($light-gray, 10) 75%, $light-gray 75%, $light-gray);
+      background: var(--background-color3);
+      background-image: repeating-linear-gradient(45deg, var(--background-color3) 25%, transparent 25%, transparent 75%, var(--background-color3) 75%, var(--background-color3)), repeating-linear-gradient(45deg, var(--background-color3) 25%, var(--background-color4) 25%, var(--background-color4) 75%, var(--background-color3) 75%, var(--background-color3));
       background-position: 0 0, $pattern-size $pattern-size;
       background-size: 2 * $pattern-size 2 * $pattern-size;
     }
@@ -122,7 +122,7 @@
 
   .answer-button-text {
     display: inline-block;
-    color: $text-color;
+    color: var(--text-color);
     background-color: $button-inner-border-color;
     padding: $margin-micro $margin-tiny;
     transition: all $transition-duration ease;
@@ -146,7 +146,7 @@
     }
 
     .answer-button-text {
-      color: $disabled-text-color;
+      color: var(--text-color-disabled);
     }
   }
 
@@ -154,6 +154,10 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+
+    :global(svg *) {
+      fill: var(--text-color)
+    }
   }
 
   .selected-answer-icon {

@@ -33,6 +33,10 @@
     :global(svg) {
       height: $icon-size-small;
       z-index: 3;
+
+      :global(path) {
+        fill: var(--text-color)
+      }
     }
 
     @media(min-width: $tablet-breakpoint) {

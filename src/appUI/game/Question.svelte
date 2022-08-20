@@ -95,7 +95,7 @@
 
   .question-color-text {
     display: inline-block;
-    color: $text-color;
+    color: var(--text-color);
     background-color :$button-inner-border-color;
     padding: $margin-micro $margin-small;
     margin: 0;

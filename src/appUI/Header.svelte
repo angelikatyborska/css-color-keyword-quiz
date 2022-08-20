@@ -1,7 +1,9 @@
 <script lang="ts">
   export let colors;
+  export let colorScheme;
   export let autoNewQuestion;
   export let autoNewQuestionTimeout;
+  export let onSetColorScheme;
   export let onSetAutoNewQuestion;
   export let onSetAutoNewQuestionTimeout;
 
@@ -33,8 +35,11 @@
   {#if showSettingsModal}
     <Modal id='settings' title='Settings' onClose={closeSettingsModal}>
       <Settings
+        colors={colors}
+        colorScheme={colorScheme}
         autoNewQuestion={autoNewQuestion}
         autoNewQuestionTimeout={autoNewQuestionTimeout}
+        onSetColorScheme={onSetColorScheme}
         onSetAutoNewQuestion={onSetAutoNewQuestion}
         onSetAutoNewQuestionTimeout={onSetAutoNewQuestionTimeout}
       />

@@ -22,7 +22,7 @@ enum QuestionDifficulty {
 
 const difficultyNames = {
   [QuestionDifficulty.EASY]: "easy",
-  [QuestionDifficulty.MEDIUM]: "hard",
+  [QuestionDifficulty.MEDIUM]: "medium",
   [QuestionDifficulty.HARD]: "legendary",
 };
 

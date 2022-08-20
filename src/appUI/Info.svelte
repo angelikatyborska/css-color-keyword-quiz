@@ -27,6 +27,7 @@
               onGiveAnswer={() => {}}
               autoNewQuestion={true}
               onGetNextQuestion={() => {}}
+              autoNewQuestionTimeoutRef={null}
     />
   </div>
   <p>There are three different difficulty levels:</p>

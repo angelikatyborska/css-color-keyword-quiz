@@ -35,7 +35,6 @@
   {#if showSettingsModal}
     <Modal id='settings' title='Settings' onClose={closeSettingsModal}>
       <Settings
-        colors={colors}
         colorScheme={colorScheme}
         autoNewQuestion={autoNewQuestion}
         autoNewQuestionTimeout={autoNewQuestionTimeout}

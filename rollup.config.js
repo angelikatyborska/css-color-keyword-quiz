@@ -32,7 +32,7 @@ function generateHtmlPlugin() {
   
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:creator" content="@atyborska93" />
-  <meta property="twitter:image" content="https://css-color-quiz.angelika.me/og-image.png" />
+  <meta name="twitter:image" content="https://css-color-quiz.angelika.me/og-image.png" />
   <meta property="og:url" content="https://css-color-quiz.angelika.me/" />
   <meta property="og:title" content="CSS Color Quiz" />
   <meta property="og:description" content="CSS Color Quiz is a quiz game about guessing color names based on the CSS color keywords." />

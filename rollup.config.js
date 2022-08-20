@@ -29,6 +29,16 @@ function generateHtmlPlugin() {
   <meta name='viewport' content='width=device-width,initial-scale=1'>
 
   <title>CSS Color Quiz</title>
+  
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="@atyborska93" />
+  <meta property="twitter:image" content="/og-image.png" />
+  <meta property="og:url" content="https://css-color-quiz.angelika.me/" />
+  <meta property="og:title" content="CSS Color Quiz" />
+  <meta property="og:description" content="CSS Color Quiz is a quiz game about guessing color names based on the CSS color keywords." />
+  <meta property="og:image" content="/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
 
   <link rel='icon' type='image/png' href='/favicon.png'>
   <link rel='stylesheet' href='/global.css'>

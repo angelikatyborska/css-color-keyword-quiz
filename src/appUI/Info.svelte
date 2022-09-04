@@ -43,7 +43,7 @@
 
   <h3>Author</h3>
   <p>
-    Created by <span class="nb"><a href="https://angelika.me/">Angelika Tyborska</a>.</span> Source code available on <span class="nb"><a href="github.com/angelikatyborska/css-color-keyword-quiz">GitHub</a>.</span>
+    Created by <span class="nb"><a href="https://angelika.me/">Angelika Tyborska</a>.</span> Source code available on <span class="nb"><a href="https://github.com/angelikatyborska/css-color-keyword-quiz">GitHub</a>.</span>
   </p>
   <p>
     Enjoying the quiz? <span class="nb"><a href="https://ko-fi.com/angelikatyborska">Buy me a coffee ☕️</a>.</span>

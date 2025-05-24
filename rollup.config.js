@@ -45,6 +45,7 @@ function generateHtmlPlugin() {
   <link rel='stylesheet' href='/${cssFile}'>
 
   <script defer src='/${jsFile}'></script>
+  <script defer data-domain="css-color-quiz.angelika.me" src="https://plausible.io/js/script.js"></script>
 </head>
 
 <body>
